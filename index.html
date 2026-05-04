@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<!-- AI-assisted draft for human review before external publishing. -->
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Daniel Li / 李绵泰 - 伦敦 AI 内容系统搭建者。" />
+<meta name="ai-generated-draft" content="AI-assisted draft for review before external publishing" />
+<title>Daniel Li | AI 内容系统搭建者</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=DM+Mono:wght@300;400;500&amp;family=Instrument+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;family=Noto+Serif+SC:wght@700;900&amp;display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Smiley Sans';
+    src: url('assets/SmileySans-Oblique.otf.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root,
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #090a0c;
+    --bg-2: #101114;
+    --bg-3: #17191d;
+    --surface: #1b1d22;
+    --surface-2: #23262c;
+    --border: rgba(255,255,255,0.08);
+    --border-2: rgba(255,255,255,0.14);
+    --text: #f2f4f8;
+    --text-2: #a9adb7;
+    --text-3: #626873;
+    --accent-start: #4da3ff;
+    --accent-end: #00d4aa;
+    --accent: var(--accent-start);
+    --accent-dim: rgba(77,163,255,0.14);
+    --accent-glow: rgba(77,163,255,0.28);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.12);
+    --nav-bg: rgba(9,10,12,0.86);
+    --grid-opacity: 0.045;
+    --serif: 'DM Serif Display', 'Smiley Sans', 'Noto Serif SC', serif;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Instrument Sans', 'Noto Sans SC', sans-serif;
+    --radius: 8px;
+    --radius-sm: 6px;
+  }
+
+  [data-theme="light"] {
+    color-scheme: light;
+    --bg: #f8f9fb;
+    --bg-2: #eef0f4;
+    --bg-3: #e4e6eb;
+    --surface: #ffffff;
+    --surface-2: #f5f6f8;
+    --border: rgba(0,0,0,0.07);
+    --border-2: rgba(0,0,0,0.12);
+    --text: #1a1c20;
+    --text-2: #5a5e68;
+    --text-3: #8a8e98;
+    --accent-dim: rgba(77,163,255,0.15);
+    --accent-glow: rgba(77,163,255,0.22);
+    --purple: #7c3aed;
+    --purple-dim: rgba(124,58,237,0.10);
+    --nav-bg: rgba(248,249,251,0.88);
+    --grid-opacity: 0.09;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      color-scheme: light;
+      --bg: #f8f9fb;
+      --bg-2: #eef0f4;
+      --bg-3: #e4e6eb;
+      --surface: #ffffff;
+      --surface-2: #f5f6f8;
+      --border: rgba(0,0,0,0.07);
+      --border-2: rgba(0,0,0,0.12);
+      --text: #1a1c20;
+      --text-2: #5a5e68;
+      --text-3: #8a8e98;
+      --accent-dim: rgba(77,163,255,0.15);
+      --accent-glow: rgba(77,163,255,0.22);
+      --purple: #7c3aed;
+      --purple-dim: rgba(124,58,237,0.10);
+      --nav-bg: rgba(248,249,251,0.88);
+      --grid-opacity: 0.09;
+    }
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  html[lang="zh-Hans"] body {
+    letter-spacing: 0.02em;
+    line-height: 1.8;
+  }
+
+  html[lang="zh-Hans"] .hero-title,
+  html[lang="zh-Hans"] .section-title,
+  html[lang="zh-Hans"] .contact-title,
+  html[lang="zh-Hans"] .profile-card h3,
+  html[lang="zh-Hans"] .project-card h3,
+  html[lang="zh-Hans"] .agent-card h3,
+  html[lang="zh-Hans"] .node-title {
+    letter-spacing: -0.01em;
+  }
+
+  a { color: inherit; }
+
+  .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s;
+    mix-blend-mode: difference;
+  }
+
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid rgba(77,163,255,0.55);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--nav-bg);
+    backdrop-filter: blur(14px);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-3);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    flex: 0 0 auto;
+    transition: color 0.2s;
+  }
+
+  .nav-logo:hover { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a,
+  .nav-cta,
+  .theme-toggle,
+  .lang-toggle {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .nav-links a {
+    color: var(--text-2);
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 0 0 auto;
+  }
+
+  .theme-toggle,
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    border: 1px solid var(--border-2);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-2);
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+  }
+
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+    min-height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  .theme-toggle:hover,
+  .lang-toggle:hover {
+    border-color: rgba(77,163,255,0.44);
+    background: var(--accent-dim);
+    color: var(--text);
+  }
+
+  .nav-cta {
+    color: var(--bg);
+    background: var(--accent);
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-sm);
+    transition: opacity 0.2s, transform 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before,
+  .contact-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: var(--grid-opacity);
+    background-image:
+      linear-gradient(var(--text) 1px, transparent 1px),
+      linear-gradient(90deg, var(--text) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.72fr);
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-copy,
+  .demo-card {
+    min-width: 0;
+    align-self: center;
+  }
+
+  .hero-name {
+    font-family: var(--mono);
+    font-size: clamp(18px, 2.5vw, 28px);
+    color: var(--text-2);
+    white-space: nowrap;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.04em;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 6vw, 72px);
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.6s 0.1s ease forwards;
+  }
+
+  .accent-gradient {
+    background: linear-gradient(135deg, #4da3ff, #00d4aa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+  }
+
+  .title-tail { white-space: nowrap; }
+
+  .hero-sub {
+    font-family: var(--sans);
+    font-size: clamp(15px, 1.8vw, 18px);
+    color: var(--text-2);
+    line-height: 1.75;
+    max-width: 560px;
+    animation: fadeInUp 0.6s 0.2s ease forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    animation: fadeInUp 0.6s 0.3s ease forwards;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    border-radius: var(--radius-sm);
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+  }
+
+  .btn-primary {
+    color: var(--bg);
+    background: var(--accent);
+    padding: 0.85rem 1.65rem;
+    font-weight: 600;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--accent-glow);
+  }
+
+  .btn-secondary {
+    color: var(--text);
+    border: 1px solid var(--border-2);
+    padding: 0.85rem 1.65rem;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+    animation: fadeInUp 0.6s 0.4s ease forwards;
+  }
+
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 34px;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .stat-label {
+    margin-top: 0.45rem;
+    color: var(--text-3);
+    font-size: 11px;
+    line-height: 1.35;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .demo-card {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    animation: fadeInUp 0.7s 0.25s ease forwards;
+  }
+
+  .demo-visual {
+    position: relative;
+    min-height: 300px;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(0,212,170,0.25), transparent 30%),
+      radial-gradient(circle at 80% 30%, rgba(77,163,255,0.34), transparent 32%),
+      linear-gradient(135deg, #111318, #1d2330 48%, #102823);
+  }
+
+  .demo-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(9,10,12,0.05), rgba(9,10,12,0.35));
+  }
+
+  .portfolio-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.95) contrast(1.05);
+    transition: transform 0.45s ease, opacity 0.25s ease;
+  }
+
+  .portfolio-player {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .demo-card.is-video-mode .portfolio-player {
+    opacity: 1;
+  }
+
+  .demo-card.is-video-mode .portfolio-thumb {
+    opacity: 0;
+  }
+
+  .demo-visual:hover .portfolio-thumb {
+    transform: scale(1.04);
+  }
+
+  .portfolio-fallback {
+    position: absolute;
+    inset: 1rem;
+    z-index: 1;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+  }
+
+  .reel-caption {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 3;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .demo-kicker {
+    color: var(--accent-end);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .demo-title {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: 26px;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .demo-sub {
+    margin-top: 0.5rem;
+    color: var(--text-2);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .reel-link {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border-radius: 50%;
+    color: var(--bg);
+    background: var(--accent);
+    font-family: var(--mono);
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  .reel-dots {
+    display: flex;
+    gap: 0.45rem;
+    padding: 0.85rem 1rem 0;
+  }
+
+  .reel-dot {
+    width: 22px;
+    height: 3px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--border-2);
+    cursor: pointer;
+    transition: background 0.2s, width 0.2s;
+  }
+
+  .reel-dot.is-active {
+    width: 36px;
+    background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+  }
+
+  .demo-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--border);
+    font-family: var(--sans);
+  }
+
+  .demo-meta div {
+    padding: 1rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .demo-meta div:last-child { border-right: 0; }
+
+  .meta-label {
+    color: var(--text-3);
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .meta-value {
+    margin-top: 0.35rem;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  @keyframes fadeInUp {
+    from { transform: translateY(20px); }
+    to { transform: translateY(0); }
+  }
+
+  .marquee-wrap {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 0.9rem 0;
+    background: var(--bg-2);
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    width: max-content;
+    animation: marquee 34s linear infinite;
+  }
+
+  .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    color: var(--text-3);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .marquee-item .dot {
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    margin-bottom: 1rem;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    margin-bottom: 1.5rem;
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1.25;
+    overflow: visible;
+  }
+
+  .section-title em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .about-grid,
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 0.85fr;
+    gap: 4rem;
+    align-items: start;
+    margin-top: 0;
+  }
+
+  #about .profile-card {
+    margin-top: -70px;
+  }
+
+  .about-text p {
+    margin-bottom: 1.25rem;
+    color: var(--text-2);
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .profile-card,
+  .system-diagram,
+  .contact-inner,
+  .card,
+  .project-card,
+  .agent-card,
+  .stat-card,
+  .timeline-item,
+  .cert-card {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: var(--radius);
+  }
+
+  .profile-card {
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+  }
+
+  .profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-start), var(--accent-end), transparent);
+  }
+
+  .avatar {
+    display: grid;
+    place-items: center;
+    width: 96px;
+    height: 96px;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-family: var(--serif);
+    font-size: 28px;
+  }
+
+  .avatar-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-fallback {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .profile-card h3 {
+    margin-bottom: 0.25rem;
+    font-family: var(--serif);
+    font-size: 22px;
+  }
+
+  .role-tag {
+    margin-bottom: 1.25rem;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .info-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-2);
+    font-size: 13px;
+  }
+
+  .info-row:last-child { border-bottom: 0; }
+  .info-icon { width: 16px; flex: 0 0 16px; color: var(--accent); }
+
+  .system-diagram {
+    margin-top: 3rem;
+    padding: 2rem;
+    overflow: hidden;
+  }
+
+  .system-row {
+    display: grid;
+    gap: 1rem;
+    position: relative;
+  }
+
+  .system-row + .system-row { margin-top: 2.5rem; }
+
+  .system-row + .system-row::before {
+    content: '';
+    position: absolute;
+    top: -1.55rem;
+    left: 50%;
+    width: 1px;
+    height: 1rem;
+    background: linear-gradient(var(--accent), transparent);
+  }
+
+  .row-3 { grid-template-columns: repeat(3, 1fr); }
+  .row-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .node-card {
+    min-height: 92px;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-2);
+  }
+
+  .system-row.orchestration .node-card {
+    border-top: 2px solid var(--accent);
+    background: linear-gradient(180deg, rgba(77,163,255,0.10), var(--bg-2));
+  }
+
+  .node-icon {
+    display: block;
+    margin-bottom: 0.6rem;
+    color: var(--accent);
+    font-size: 20px;
+  }
+
+  .node-title {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .node-note {
+    margin-top: 0.25rem;
+    color: var(--text-3);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .pipeline .node-card { position: relative; }
+
+  .pipeline .node-card:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    top: 50%;
+    right: -0.82rem;
+    transform: translate(50%, -50%);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 14px;
+  }
+
+  .system-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .stat-card {
+    padding: 1.25rem;
+    background: var(--bg-2);
+  }
+
+  .stat-card strong {
+    display: block;
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: 30px;
+    line-height: 1;
+  }
+
+  .stat-card span {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--text-2);
+    font-size: 13px;
+  }
+
+  .projects-grid,
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .agents-grid { grid-template-columns: repeat(3, 1fr); }
+
+  .project-card,
+  .agent-card {
+    position: relative;
+    display: block;
+    min-height: 100%;
+    padding: 1.75rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 0.3s, background 0.3s, transform 0.3s;
+  }
+
+  .project-card:hover,
+  .agent-card:hover,
+  .timeline-item:hover,
+  .cert-card:hover {
+    border-color: rgba(77,163,255,0.42);
+    background: var(--surface-2);
+    transform: translateY(-4px);
+  }
+
+  .project-card::after {
+    content: '↗';
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    color: var(--text-3);
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .project-card:hover::after {
+    color: var(--accent);
+    transform: translate(2px, -2px);
+  }
+
+  .project-num {
+    margin-bottom: 1.25rem;
+    color: var(--text-3);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .project-card h3,
+  .agent-card h3 {
+    margin-bottom: 0.6rem;
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: 22px;
+  }
+
+  .agent-card h3 {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .project-card p,
+  .agent-card p {
+    color: var(--text-2);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .agent-card p { font-size: 13px; }
+
+  .agent-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-size: 22px;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-3);
+    color: var(--text-3);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .platform-tag {
+    display: inline-flex;
+    margin-top: 1rem;
+    border-color: rgba(77,163,255,0.24);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .logo-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 3rem;
+  }
+
+  .logo-pill {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.65rem 1rem;
+    color: var(--text-3);
+    background: var(--surface);
+    filter: grayscale(1);
+    opacity: 0.55;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: opacity 0.2s, filter 0.2s, border-color 0.2s;
+  }
+
+  .logo-pill:hover {
+    opacity: 1;
+    filter: none;
+    border-color: rgba(77,163,255,0.42);
+  }
+
+  .timeline {
+    position: relative;
+    margin-top: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-left: 0;
+    padding: 0 0 2rem 2.5rem;
+    border: 0;
+    background: transparent;
+    transition: transform 0.3s;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 6px;
+    width: 11px;
+    height: 11px;
+    border: 2px solid var(--bg);
+    border-radius: 50%;
+    background: var(--purple);
+    box-shadow: 0 0 8px rgba(167,139,250,0.4);
+  }
+
+  .timeline-date {
+    margin-bottom: 0.5rem;
+    color: var(--purple);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .timeline-title {
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .timeline-org {
+    margin-top: 0.2rem;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+
+  .cert-card {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    color: var(--text-2);
+    transition: border-color 0.3s, background 0.3s, transform 0.3s;
+  }
+
+  .contact-inner {
+    position: relative;
+    overflow: hidden;
+    max-width: none;
+    padding: 2.5rem 3rem;
+  }
+
+  .contact-inner::before {
+    opacity: 0.05;
+    background-size: 32px 32px;
+  }
+
+  .contact-inner > * { position: relative; z-index: 1; }
+
+  .cert-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: 1.5rem;
+  }
+
+  .contact-title {
+    font-family: var(--serif);
+    font-size: clamp(30px, 3vw, 44px);
+    line-height: 1.1;
+  }
+
+  .contact-title em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .contact-sub {
+    margin-top: 1rem;
+    color: var(--text-2);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-2);
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .contact-link:hover {
+    border-color: rgba(77,163,255,0.44);
+    background: var(--accent-dim);
+  }
+
+  .contact-icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .contact-label {
+    color: var(--text-3);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .contact-value {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+    word-break: break-word;
+  }
+
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-3);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-dot { color: var(--accent); }
+
+  @media (max-width: 960px) {
+    .hero-content,
+    .about-grid,
+    .contact-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .hero-stats,
+    .row-4,
+    .agents-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 1500px) {
+    .title-tail { display: block; }
+  }
+
+  @media (max-width: 900px) {
+    nav {
+      padding: 1rem;
+    }
+
+    .nav-links { display: none; }
+
+    .nav-cta {
+      font-size: 0;
+      padding: 0.5rem 0.9rem;
+    }
+
+    .theme-toggle {
+      width: 32px;
+      height: 32px;
+      min-height: 32px;
+      padding: 0;
+      font-size: 15px;
+    }
+
+    .lang-toggle {
+      width: 38px;
+      padding: 0;
+    }
+
+    .nav-cta::before {
+      content: attr(data-mobile-label);
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+
+    .hero {
+      min-height: auto;
+      padding: 6.5rem 1rem 3rem;
+    }
+
+    .hero-title { font-size: 43px; }
+    .hero-sub { max-width: 100%; font-size: 16px; }
+
+    .hero-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+    }
+
+    .hero-stats,
+    .projects-grid,
+    .agents-grid,
+    .row-3,
+    .row-4,
+    .system-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .demo-meta {
+      grid-template-columns: 1fr;
+    }
+
+    .demo-visual {
+      width: 100%;
+      min-height: 0;
+      aspect-ratio: 16 / 11;
+    }
+
+    .demo-meta div {
+      border-right: 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-meta div:last-child { border-bottom: 0; }
+
+    .system-diagram { padding: 1rem; }
+    .pipeline .node-card::after { display: none; }
+
+    section { padding: 4rem 1rem; }
+    .contact-inner { padding: 2rem; }
+
+    footer {
+      flex-direction: column;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="#hero" class="nav-logo">miantai.li</a>
+  <ul class="nav-links">
+    <li><a href="#about" data-i18n="nav.about">关于</a></li>
+    <li><a href="#system" data-i18n="nav.system">系统</a></li>
+    <li><a href="#work" data-i18n="nav.work">作品</a></li>
+    <li><a href="#agents" data-i18n="nav.agents">Agents</a></li>
+    <li><a href="#contact" data-i18n="nav.contact">联系</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="切换颜色主题" aria-pressed="false">☀️</button>
+    <button type="button" class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
+    <a href="#contact" class="nav-cta" data-i18n="nav.cta" data-i18n-mobile="nav.ctaMobile" data-mobile-label="联系">合作咨询</a>
+  </div>
+</nav>
+
+<main>
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <div class="hero-copy">
+        <p class="hero-name" data-i18n="hero.name">Daniel Li / 李绵泰</p>
+        <h1 class="hero-title">
+          <span data-i18n="hero.line1">我不只做内容，</span><br>
+          <span data-i18n="hero.line2Prefix">我做</span><span class="accent-gradient" data-i18n="hero.line2Accent">生产内容的系统</span><span data-i18n="hero.line2Suffix">。</span>
+        </h1>
+        <p class="hero-sub" data-i18n="hero.sub">我把视频制作、AI Agent 和记忆系统组合成一条可复用的内容生产线——团队拿到 brief 就能出活，不用每次从零开始。</p>
+        <div class="hero-actions">
+          <a href="#work" class="btn-primary" data-i18n="hero.primary">查看作品 →</a>
+          <a href="#contact" class="btn-secondary" data-i18n="hero.secondary">联系我</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-num">6+</div>
+            <div class="stat-label" data-i18n="hero.stat1">年制作与项目管理</div>
+          </div>
+          <div>
+            <div class="stat-num">200M+</div>
+            <div class="stat-label" data-i18n="hero.stat2">跨平台内容播放量</div>
+          </div>
+          <div>
+            <div class="stat-num">3 Platforms</div>
+            <div class="stat-label" data-i18n="hero.stat3">一套记忆，多端部署</div>
+          </div>
+          <div>
+            <div class="stat-num">228</div>
+            <div class="stat-label" data-i18n="hero.stat4">2.5 小时处理素材</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="demo-card" aria-label="Looping portfolio reel">
+        <div class="demo-visual">
+          <div class="portfolio-fallback" aria-hidden="true"></div>
+          <iframe
+            id="portfolioPlayer"
+            class="portfolio-player"
+            title="Daniel Li autoplay portfolio reel"
+            allow="autoplay; encrypted-media; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+          <img id="portfolioThumb" class="portfolio-thumb" src="https://img.youtube.com/vi/EA9mTY6aH48/maxresdefault.jpg" alt="Mindray Animal Medical portfolio thumbnail">
+          <div class="reel-caption">
+            <div>
+              <div class="demo-kicker" id="portfolioKicker">作品循环 · 01 / 03</div>
+              <a class="demo-title" id="portfolioTitle" href="https://www.youtube.com/watch?v=EA9mTY6aH48" target="_blank" rel="noreferrer">Mindray Animal Medical</a>
+              <div class="demo-sub" id="portfolioSub">为全球兽医品牌制作商业视频。</div>
+            </div>
+            <a class="reel-link" id="portfolioLink" href="https://www.youtube.com/watch?v=EA9mTY6aH48" target="_blank" rel="noreferrer" aria-label="Open current portfolio work">↗</a>
+          </div>
+        </div>
+        <div class="reel-dots" id="portfolioDots" aria-label="Portfolio reel controls"></div>
+        <div class="demo-meta">
+          <div>
+            <div class="meta-label" data-i18n="portfolio.meta.role">角色</div>
+            <div class="meta-value" id="portfolioRole">制片 / 系统搭建</div>
+          </div>
+          <div>
+            <div class="meta-label" data-i18n="portfolio.meta.mode">模式</div>
+            <div class="meta-value" data-i18n="portfolio.meta.modeValue">AI + 传统制作</div>
+          </div>
+          <div>
+            <div class="meta-label" data-i18n="portfolio.meta.edge">不同点</div>
+            <div class="meta-value" data-i18n="portfolio.meta.edgeValue">Agent 驱动流程</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+
+  <section id="about">
+    <div class="section-label" data-i18n="about.label">01 — 关于</div>
+    <h2 class="section-title"><span data-i18n="about.title1">制作能力</span><br><em data-i18n="about.title2">加上一套操作系统</em></h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p data-i18n="about.p1">Daniel Li / 李绵泰是一名常驻伦敦的 AI 内容系统搭建者，拥有 Warwick 硕士和 Durham 本科学历。他的工作横跨商业视频、教育与学生媒体管理，以及 AI 驱动的内容生产流程。</p>
+        <p data-i18n="about.p2">不只拍摄剪辑——我围绕内容搭建记忆库、Agent、审核关卡和交付流程，让创意生产从一次性创作变成可复用系统。适合需要「制作能力 + AI 基建」的团队。</p>
+        <div class="logo-strip" aria-label="合作与教育机构">
+          <span class="logo-pill">Mindray Animal Medical</span>
+          <span class="logo-pill">Durham University</span>
+          <span class="logo-pill">Celestial Globe</span>
+          <span class="logo-pill">DL Studio</span>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-date">2024–2025</div>
+            <div class="timeline-title" data-i18n="credentials.edu1.title">MA 教育领导力与管理</div>
+            <div class="timeline-org">University of Warwick</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2021–2024</div>
+            <div class="timeline-title" data-i18n="credentials.edu2.title">BA 商业管理</div>
+            <div class="timeline-org">Durham University</div>
+          </div>
+        </div>
+      </div>
+      <aside class="profile-card">
+        <div class="avatar">
+          <img class="avatar-photo" src="assets/daniel-photo.jpg" alt="Daniel Li portrait" onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
+          <span class="avatar-fallback" hidden>DL</span>
+        </div>
+        <h3 data-i18n="profile.name">Daniel Li / 李绵泰</h3>
+        <div class="role-tag" data-i18n="profile.role">AI 内容系统搭建者</div>
+        <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row1">全链路：Camera → Agent → Delivery</span></div>
+        <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row2">商业、展会与品牌视频制作</span></div>
+        <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row3">AI 系统：Memory OS、Agent 配置、Prompt Engineering</span></div>
+        <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row4">语言：EN · 粤 · 普 + 4 门拉丁/日耳曼语系基础</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="system">
+    <div class="section-label" data-i18n="system.label">02 — 系统</div>
+    <h2 class="section-title"><span data-i18n="system.title1">AI 内容</span><br><em data-i18n="system.title2">生产操作系统</em></h2>
+    <div class="system-diagram">
+      <div class="system-row row-3">
+        <div class="node-card"><span class="node-icon">📋</span><div class="node-title" data-i18n="system.n1">客户 Brief</div><div class="node-note" data-i18n="system.d1">目标、卖点、受众和限制条件。</div></div>
+        <div class="node-card"><span class="node-icon">📊</span><div class="node-title" data-i18n="system.n2">市场数据</div><div class="node-note" data-i18n="system.d2">竞品、渠道和内容信号。</div></div>
+        <div class="node-card"><span class="node-icon">🎯</span><div class="node-title" data-i18n="system.n3">品牌规范</div><div class="node-note" data-i18n="system.d3">语气、声明、视觉语言和边界。</div></div>
+      </div>
+      <div class="system-row row-4 orchestration">
+        <div class="node-card"><span class="node-icon">🧠</span><div class="node-title" data-i18n="system.n4">DANIEL.md 路由</div><div class="node-note" data-i18n="system.d4">按任务类型加载对应记忆。</div></div>
+        <div class="node-card"><span class="node-icon">📚</span><div class="node-title" data-i18n="system.n5">知识库</div><div class="node-note" data-i18n="system.d5">可复用 brief、案例和决策。</div></div>
+        <div class="node-card"><span class="node-icon">🛡️</span><div class="node-title" data-i18n="system.n6">护栏</div><div class="node-note" data-i18n="system.d6">声明、客户数据和质量控制。</div></div>
+        <div class="node-card"><span class="node-icon">🔧</span><div class="node-title" data-i18n="system.n7">技能库</div><div class="node-note" data-i18n="system.d7">专项流程和模板。</div></div>
+      </div>
+      <div class="system-row row-4 pipeline">
+        <div class="node-card"><span class="node-icon">🎬</span><div class="node-title" data-i18n="system.n8">预演与分镜</div><div class="node-note" data-i18n="system.d8">脚本、镜头表和制作计划。</div></div>
+        <div class="node-card"><span class="node-icon">🎨</span><div class="node-title" data-i18n="system.n9">AI 生成</div><div class="node-note" data-i18n="system.d9">参考、素材和可控变体。</div></div>
+        <div class="node-card"><span class="node-icon">✅</span><div class="node-title" data-i18n="system.n10">一致性 QA</div><div class="node-note" data-i18n="system.d10">风格、产品和信息审核。</div></div>
+        <div class="node-card"><span class="node-icon">✂️</span><div class="node-title" data-i18n="system.n11">剪辑与精修</div><div class="node-note" data-i18n="system.d11">成片、字幕和导出包。</div></div>
+      </div>
+      <div class="system-row row-3">
+        <div class="node-card"><span class="node-icon">📱</span><div class="node-title" data-i18n="system.n12">社媒切条</div><div class="node-note" data-i18n="system.d12">符合平台语境的短内容。</div></div>
+        <div class="node-card"><span class="node-icon">🎥</span><div class="node-title" data-i18n="system.n13">主视觉影片</div><div class="node-note" data-i18n="system.d13">核心叙事和 campaign 锚点。</div></div>
+        <div class="node-card"><span class="node-icon">📊</span><div class="node-title" data-i18n="system.n14">数据复盘</div><div class="node-note" data-i18n="system.d14">把表现反馈写回记忆库。</div></div>
+      </div>
+    </div>
+    <div class="system-stats">
+      <div class="stat-card"><strong>60-70%</strong><span data-i18n="system.s1">更低 token 成本 — 分层记忆加载</span></div>
+      <div class="stat-card"><strong>Zero errors</strong><span data-i18n="system.s2">228 个素材 — AI + SQL 批处理零错误</span></div>
+      <div class="stat-card"><strong>3 platforms</strong><span data-i18n="system.s3">一套配置 — Notion AI / Codex / Claude</span></div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="section-label" data-i18n="work.label">03 — 作品</div>
+    <h2 class="section-title"><span data-i18n="work.title1">精选</span><br><em data-i18n="work.title2">案例</em></h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-num">01 / 04</div>
+        <h3 data-i18n="work.c1.title">AI 内容生产 OS</h3>
+        <p data-i18n="work.c1.desc">设计分层 AI 记忆架构，把上下文路由到 Notion AI、Claude 和 Codex。通过 AI + SQL 批处理，2.5 小时处理 228 个素材且零错误。</p>
+        <div class="tag-row"><span class="tag">Memory Architecture</span><span class="tag">Agent Config</span><span class="tag">Notion AI</span><span class="tag">SQL</span><span class="tag">Harness Engineering</span></div>
+      </div>
+      <a class="project-card" href="https://www.youtube.com/watch?v=EA9mTY6aH48" target="_blank" rel="noreferrer">
+        <div class="project-num">02 / 04</div>
+        <h3>Mindray Animal Medical</h3>
+        <p data-i18n="work.c2.desc">为全球兽医品牌完成端到端商业视频制作：从创意规划、摄影执行，到 AI 辅助后期和多版本交付。</p>
+        <div class="tag-row"><span class="tag">Commercial Video</span><span class="tag">Producer</span><span class="tag">DoP</span><span class="tag">AI Post</span><span class="tag">Brand Film</span></div>
+      </a>
+      <div class="project-card">
+        <div class="project-num">03 / 04</div>
+        <h3 data-i18n="work.c3.title">AI 视频生产流程</h3>
+        <p data-i18n="work.c3.desc">端到端 AI 辅助流程：Brief → 脚本 → AI 素材生成 → 质量审核 → 剪辑 → 交付。每一步都有专属 Agent、护栏和人工审核。</p>
+        <div class="tag-row"><span class="tag">Runway</span><span class="tag">Kling</span><span class="tag">Veo</span><span class="tag">Agent Pipeline</span><span class="tag">Automation</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">04 / 04</div>
+        <h3 data-i18n="work.c4.title">DL Studio — 品牌内容引擎</h3>
+        <p data-i18n="work.c4.desc">搭建一人内容生产系统，服务商业与品牌项目。从 IP 定位、制作计划到平台分发，把内容生产做成可复用流程。</p>
+        <div class="tag-row"><span class="tag">Brand Content</span><span class="tag">200M+ Views</span><span class="tag">Multi-platform</span><span class="tag">Content Strategy</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="agents">
+    <div class="section-label" data-i18n="agents.label">04 — Agent Stack</div>
+    <h2 class="section-title"><span data-i18n="agents.title1">我的 AI 团队</span><br><em data-i18n="agents.title2">— 已训练并部署</em></h2>
+    <div class="agents-grid">
+      <div class="agent-card"><div class="agent-icon">🧠</div><h3 data-i18n="agents.a1.title">记忆路由器</h3><p data-i18n="agents.a1.desc">根据任务类型把上下文路由到正确知识库。分层加载可减少 60-70% token 成本。</p><span class="tag platform-tag">Notion AI</span></div>
+      <div class="agent-card"><div class="agent-icon">🎬</div><h3 data-i18n="agents.a2.title">视频 Brief Agent</h3><p data-i18n="agents.a2.desc">把客户 brief 转成结构化脚本、镜头表和设备计划，适合快速进入制作。</p><span class="tag platform-tag">Claude / ChatGPT</span></div>
+      <div class="agent-card"><div class="agent-icon">✍️</div><h3 data-i18n="agents.a3.title">内容再加工 Agent</h3><p data-i18n="agents.a3.desc">把长视频拆成适配小红书、LinkedIn、TikTok、YouTube、X 的短内容与文案。</p><span class="tag platform-tag">Claude + Notion</span></div>
+      <div class="agent-card"><div class="agent-icon">🎨</div><h3 data-i18n="agents.a4.title">视觉一致性 QA</h3><p data-i18n="agents.a4.desc">检查 AI 生成素材的人物、产品和风格一致性，把异常标记给人工复核。</p><span class="tag platform-tag">AI Tools + Manual QA</span></div>
+      <div class="agent-card"><div class="agent-icon">📊</div><h3 data-i18n="agents.a5.title">Campaign 分析 Agent</h3><p data-i18n="agents.a5.desc">分析内容表现数据，并输出带指标依据的优化建议。</p><span class="tag platform-tag">Claude + SQL</span></div>
+      <div class="agent-card"><div class="agent-icon">🔄</div><h3 data-i18n="agents.a6.title">知识提取 Agent</h3><p data-i18n="agents.a6.desc">批量把原始内容转成结构化知识条目。曾在 2.5 小时内处理 228 个素材且零错误。</p><span class="tag platform-tag">Notion AI + SQL</span></div>
+    </div>
+  </section>
+
+
+  <section id="contact">
+    <div class="section-label" data-i18n="contact.label">05 — 联系</div>
+    <div class="contact-inner">
+      <div>
+        <h2 class="contact-title"><span data-i18n="contact.title1">一起把内容</span><br><em data-i18n="contact.title2">做成系统</em><br><span data-i18n="contact.title3">并交付出去。</span></h2>
+        <p class="contact-sub" data-i18n="contact.sub">可合作方向：全职岗位、咨询项目、AI 内容生产系统搭建。当前常驻伦敦。</p>
+      </div>
+      <div class="contact-links">
+        <div class="contact-link"><span class="contact-icon">✉</span><span><span class="contact-label">Email</span><span class="contact-value">m***@outlook.com</span></span></div>
+        <div class="contact-link"><span class="contact-icon">☎</span><span><span class="contact-label">Phone</span><span class="contact-value">+44 7*** *** 4217</span></span></div>
+        <div class="contact-link"><span class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.17-.249 1.805-.413 2.227-.217.562-.477.96-.896 1.382-.421.419-.82.679-1.381.896-.422.164-1.058.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.053-1.805-.249-2.227-.413-.562-.217-.96-.477-1.382-.896-.419-.421-.679-.82-.896-1.381-.164-.422-.36-1.058-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.053-1.17.249-1.805.413-2.227.217-.562.477-.96.896-1.382.421-.419.82-.679 1.381-.896.422-.164 1.058-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.938.306.789.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.789.297 1.66.495 2.938.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.261 2.938-.558.789-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.297-.789.495-1.66.558-2.938C23.986 15.667 24 15.259 24 12s-.014-3.667-.072-4.947c-.06-1.277-.261-2.148-.558-2.938-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.789-.297-1.66-.495-2.938-.558C15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></span><span><span class="contact-label">Instagram</span><span class="contact-value" style="margin-left:auto;text-align:right">@daniel.liccardo</span></span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span><span data-i18n="footer.line1">© 2026 Daniel Li · AI 内容系统搭建者</span></span>
+  <span><span data-i18n="footer.line2">用系统思维搭建 · 由 Agent 流程驱动</span></span>
+</footer>
+
+<script>
+const translations = {
+  en: {
+    'meta.title': 'Daniel Li | AI Content System Builder',
+    'meta.description': 'Daniel Li - London-based AI content system builder.',
+    'nav.about': 'About',
+    'nav.system': 'System',
+    'nav.work': 'Work',
+    'nav.agents': 'Agents',
+        'nav.contact': 'Contact',
+    'nav.cta': 'Work with me',
+    'nav.ctaMobile': 'Contact',
+    'hero.name': 'Daniel Li / 李绵泰',
+    'hero.line1': "I don't just make content,",
+    'hero.line2Prefix': 'I build ',
+    'hero.line2Accent': 'systems that produce content',
+    'hero.line2Suffix': '.',
+    'hero.sub': 'I combine video production, AI agents, and memory systems into a reusable content production line, so teams can move from brief to output without starting from scratch each time.',
+    'hero.primary': 'View work ->',
+    'hero.secondary': 'Contact',
+    'hero.stat1': 'Years in production and project management',
+    'hero.stat2': 'Cross-platform content views',
+    'hero.stat3': 'One memory, multi-platform deployment',
+    'hero.stat4': '2.5-hour asset processing run',
+    'portfolio.meta.role': 'Role',
+    'portfolio.meta.mode': 'Mode',
+    'portfolio.meta.modeValue': 'AI + Traditional',
+    'portfolio.meta.edge': 'Edge',
+    'portfolio.meta.edgeValue': 'Agent-powered pipeline',
+    'about.label': '01 — About',
+    'about.title1': 'Production skill',
+    'about.title2': 'with an operating system',
+    'about.p1': 'Daniel Li is a London-based AI content system builder with an MA from Warwick and a BA from Durham. His work spans commercial video, education and student media management, and AI-assisted content operations.',
+    'about.p2': "Doesn't just shoot & edit — builds memory bases, agents, review gates, and delivery workflows around content, turning one-off creation into reusable systems. For teams that need production + AI infra.",
+        'profile.name': 'Daniel Li / 李绵泰',
+    'profile.role': 'AI Content System Builder',
+    'profile.row1': 'Full chain: Camera -> Agent -> Delivery',
+    'profile.row2': 'Commercial, event, and brand video production',
+    'profile.row3': 'AI systems: Memory OS, agent configuration, prompt engineering',
+    'profile.row4': 'Languages: EN · Cantonese · Mandarin + 4 Latin/Germanic basics',
+    'system.label': '02 — System',
+    'system.title1': 'AI content',
+    'system.title2': 'production operating system',
+    'system.n1': 'Client Brief',
+    'system.d1': 'Goals, selling points, audience, and constraints.',
+    'system.n2': 'Market Data',
+    'system.d2': 'Competitors, channels, and content signals.',
+    'system.n3': 'Brand Rules',
+    'system.d3': 'Voice, claims, visual language, and boundaries.',
+    'system.n4': 'DANIEL.md Routing',
+    'system.d4': 'Loads the right memory for each task type.',
+    'system.n5': 'Knowledge Base',
+    'system.d5': 'Reusable briefs, cases, and decisions.',
+    'system.n6': 'Guardrails',
+    'system.d6': 'Claims, client data, and quality control.',
+    'system.n7': 'Skill Library',
+    'system.d7': 'Specialized workflows and templates.',
+    'system.n8': 'Previs & Storyboard',
+    'system.d8': 'Scripts, shot lists, and production planning.',
+    'system.n9': 'AI Generation',
+    'system.d9': 'References, assets, and controlled variants.',
+    'system.n10': 'Consistency QA',
+    'system.d10': 'Style, product, and message review.',
+    'system.n11': 'Edit & Polish',
+    'system.d11': 'Final cuts, captions, and export packages.',
+    'system.n12': 'Social Cutdowns',
+    'system.d12': 'Short-form output for platform context.',
+    'system.n13': 'Hero Film',
+    'system.d13': 'Core narrative and campaign anchor.',
+    'system.n14': 'Data Review',
+    'system.d14': 'Performance feedback written back into memory.',
+    'system.s1': 'Lower token cost through layered memory loading',
+    'system.s2': '228 assets processed with AI + SQL and zero errors',
+    'system.s3': 'One configuration across Notion AI / Codex / Claude',
+    'work.label': '03 — Work',
+    'work.title1': 'Selected',
+    'work.title2': 'case studies',
+    'work.c1.title': 'AI Content Production OS',
+    'work.c1.desc': 'Designed a layered AI memory architecture that routes context across Notion AI, Claude, and Codex. Processed 228 assets in 2.5 hours with AI + SQL and zero errors.',
+    'work.c2.desc': 'End-to-end commercial video production for a global veterinary brand, from creative planning and camera work to AI-assisted post and multi-version delivery.',
+    'work.c3.title': 'AI Video Production Workflow',
+    'work.c3.desc': 'An end-to-end AI-assisted workflow: brief, script, AI asset generation, quality review, edit, and delivery. Each step has a dedicated agent, guardrail, and human review point.',
+    'work.c4.title': 'DL Studio — Brand Content Engine',
+    'work.c4.desc': 'Built a one-person content production system for commercial and brand projects, turning IP positioning, production planning, and platform distribution into a reusable workflow.',
+    'agents.label': '04 — Agent Stack',
+    'agents.title1': 'My AI team',
+    'agents.title2': 'trained and deployed',
+    'agents.a1.title': 'Memory Router',
+    'agents.a1.desc': 'Routes context to the right knowledge base by task type. Layered loading can reduce token cost by 60-70%.',
+    'agents.a2.title': 'Video Brief Agent',
+    'agents.a2.desc': 'Turns client briefs into structured scripts, shot lists, and equipment plans for faster production starts.',
+    'agents.a3.title': 'Content Repurposing Agent',
+    'agents.a3.desc': 'Breaks long videos into short-form content and copy for Xiaohongshu, LinkedIn, TikTok, YouTube, and X.',
+    'agents.a4.title': 'Visual Consistency QA',
+    'agents.a4.desc': 'Checks AI-generated assets for character, product, and style consistency, then flags exceptions for human review.',
+    'agents.a5.title': 'Campaign Analysis Agent',
+    'agents.a5.desc': 'Analyzes content performance data and produces metric-backed optimization suggestions.',
+    'agents.a6.title': 'Knowledge Extraction Agent',
+    'agents.a6.desc': 'Batch-converts raw content into structured knowledge entries. Previously processed 228 assets in 2.5 hours with zero errors.',
+                'credentials.edu1.title': 'MA Education Leadership & Management',
+    'credentials.edu2.title': 'BA Business Management',
+    'contact.label': '06 — Contact',
+    'contact.title1': "Let's build",
+    'contact.title2': 'the content system',
+    'contact.title3': 'and ship it.',
+    'contact.sub': 'Available for full-time roles, consulting, and AI content system builds. Currently based in London.',
+    'footer.line1': '© 2026 Daniel Li · AI Content System Builder',
+    'footer.line2': 'Built with systems thinking · Powered by agent workflows'
+  }
+};
+
+const zhCopy = {};
+const zhMobileCopy = {};
+document.querySelectorAll('[data-i18n]').forEach(element => {
+  zhCopy[element.dataset.i18n] = element.textContent;
+});
+document.querySelectorAll('[data-i18n-mobile]').forEach(element => {
+  zhMobileCopy[element.dataset.i18nMobile] = element.getAttribute('data-mobile-label') || '';
+});
+
+const metaDescription = document.querySelector('meta[name="description"]');
+const themeToggle = document.getElementById('themeToggle');
+const langToggle = document.getElementById('langToggle');
+const html = document.documentElement;
+const systemThemeQuery = window.matchMedia('(prefers-color-scheme: light)');
+let currentLang = localStorage.getItem('danielPortfolioLang') || 'zh';
+
+function updateThemeButton() {
+  if (!themeToggle) return;
+  const activeTheme = html.dataset.theme === 'light' ? 'light' : 'dark';
+  themeToggle.textContent = activeTheme === 'light' ? '🌙' : '☀️';
+  const nextThemeLabel = activeTheme === 'light'
+    ? (currentLang === 'zh' ? '切换到深色主题' : 'Switch to dark theme')
+    : (currentLang === 'zh' ? '切换到浅色主题' : 'Switch to light theme');
+  themeToggle.setAttribute('aria-label', nextThemeLabel);
+  themeToggle.setAttribute('aria-pressed', activeTheme === 'light' ? 'true' : 'false');
+}
+
+function applyTheme(theme, shouldPersist = true) {
+  const nextTheme = theme === 'light' ? 'light' : 'dark';
+  html.dataset.theme = nextTheme;
+  if (shouldPersist) localStorage.setItem('theme', nextTheme);
+  updateThemeButton();
+}
+
+function initTheme() {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    applyTheme(savedTheme, false);
+  } else {
+    applyTheme(systemThemeQuery.matches ? 'light' : 'dark', false);
+  }
+}
+
+function applyLanguage(lang) {
+  currentLang = lang === 'en' ? 'en' : 'zh';
+  const copy = currentLang === 'en' ? translations.en : zhCopy;
+  document.documentElement.lang = currentLang === 'en' ? 'en' : 'zh-Hans';
+  document.title = currentLang === 'en' ? translations.en['meta.title'] : 'Daniel Li | AI 内容系统搭建者';
+  if (metaDescription) {
+    metaDescription.setAttribute('content', currentLang === 'en' ? translations.en['meta.description'] : 'Daniel Li / 李绵泰 - 伦敦 AI 内容系统搭建者。');
+  }
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    const key = element.dataset.i18n;
+    const nextText = copy[key] || zhCopy[key];
+    if (nextText) element.textContent = nextText;
+  });
+  document.querySelectorAll('[data-i18n-mobile]').forEach(element => {
+    const key = element.dataset.i18nMobile;
+    const nextText = currentLang === 'en' ? translations.en[key] : zhMobileCopy[key];
+    if (nextText) element.setAttribute('data-mobile-label', nextText);
+  });
+  if (langToggle) {
+    langToggle.textContent = currentLang === 'zh' ? 'EN' : '中文';
+    langToggle.setAttribute('aria-label', currentLang === 'zh' ? 'Switch language' : '切换到中文');
+  }
+  localStorage.setItem('danielPortfolioLang', currentLang);
+  updateThemeButton();
+}
+
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const nextTheme = html.dataset.theme === 'light' ? 'dark' : 'light';
+    applyTheme(nextTheme);
+  });
+}
+
+systemThemeQuery.addEventListener('change', event => {
+  if (!localStorage.getItem('theme')) {
+    applyTheme(event.matches ? 'light' : 'dark', false);
+  }
+});
+
+if (langToggle) {
+  langToggle.addEventListener('click', () => {
+    applyLanguage(currentLang === 'zh' ? 'en' : 'zh');
+    setActiveWork(activeWork);
+  });
+}
+
+initTheme();
+applyLanguage(currentLang);
+
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', event => {
+  mx = event.clientX;
+  my = event.clientY;
+});
+
+function animateCursor() {
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cursorRing.style.left = rx + 'px';
+  cursorRing.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+document.querySelectorAll('a, button, .project-card, .agent-card, .node-card, .contact-link').forEach(element => {
+  element.addEventListener('mouseenter', () => {
+    cursor.style.width = '18px';
+    cursor.style.height = '18px';
+    cursorRing.style.width = '54px';
+    cursorRing.style.height = '54px';
+  });
+  element.addEventListener('mouseleave', () => {
+    cursor.style.width = '10px';
+    cursor.style.height = '10px';
+    cursorRing.style.width = '36px';
+    cursorRing.style.height = '36px';
+  });
+});
+
+const marqueeItems = [
+  'AI Video', 'Agent Design', 'Harness Engineering', 'Producer', 'DoP',
+  'Notion Systems', 'Claude', 'Codex', 'Memory Architecture', 'Content Pipeline',
+  'Multi-modal', 'Prompt Systems', 'Runway', 'Kling', 'DaVinci Resolve', 'Cursor'
+];
+
+const track = document.getElementById('marqueeTrack');
+[...marqueeItems, ...marqueeItems].forEach((item, index, items) => {
+  const element = document.createElement('span');
+  element.className = 'marquee-item';
+  element.innerHTML = item + (index < items.length - 1 ? '<span class="dot"></span>' : '');
+  track.appendChild(element);
+});
+
+const portfolioWorks = [
+  {
+    id: 'EA9mTY6aH48',
+    title: 'Mindray Animal Medical',
+    url: 'https://www.youtube.com/watch?v=EA9mTY6aH48',
+    role: {
+      zh: '制片 / 系统搭建',
+      en: 'Producer / System Builder'
+    },
+    description: {
+      zh: '为全球兽医品牌制作商业视频。',
+      en: 'Commercial video production for a global veterinary brand.'
+    }
+  },
+  {
+    id: '_kHqyFngHXQ',
+    title: 'Mindray Animal Medical 2',
+    url: 'https://youtu.be/_kHqyFngHXQ?si=6LW8-qQRGK7QtXeS',
+    role: {
+      zh: '制片 / 系统搭建',
+      en: 'Producer / System Builder'
+    },
+    description: {
+      zh: '延展品牌影片，保持 campaign 语言一致。',
+      en: 'Follow-up brand film with consistent campaign language.'
+    }
+  },
+  {
+    id: '1V7488MtTdQ',
+    title: 'Mindray Animal Medical 3',
+    url: 'https://youtu.be/1V7488MtTdQ?si=ppl6JS4hPin4wIwD',
+    role: {
+      zh: '制片 / 系统搭建',
+      en: 'Producer / System Builder'
+    },
+    description: {
+      zh: '适合国际化灵活使用的 campaign 视频资产。',
+      en: 'Campaign-ready video asset for flexible international use.'
+    }
+  }
+];
+
+const demoCard = document.querySelector('.demo-card');
+const portfolioPlayer = document.getElementById('portfolioPlayer');
+const portfolioThumb = document.getElementById('portfolioThumb');
+const portfolioTitle = document.getElementById('portfolioTitle');
+const portfolioKicker = document.getElementById('portfolioKicker');
+const portfolioSub = document.getElementById('portfolioSub');
+const portfolioRole = document.getElementById('portfolioRole');
+const portfolioLink = document.getElementById('portfolioLink');
+const portfolioDots = document.getElementById('portfolioDots');
+let activeWork = 0;
+const shouldAutoplayInline = window.location.protocol === 'https:' || window.location.protocol === 'http:';
+
+function thumbnailUrl(videoId) {
+  return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+}
+
+function embedUrl(videoId) {
+  const params = new URLSearchParams({
+    autoplay: '1',
+    mute: '1',
+    loop: '1',
+    playlist: videoId,
+    controls: '0',
+    playsinline: '1',
+    rel: '0',
+    modestbranding: '1',
+    enablejsapi: '1'
+  });
+
+  if (window.location.origin && window.location.origin !== 'null') {
+    params.set('origin', window.location.origin);
+  }
+
+  return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+}
+
+function setActiveWork(index) {
+  activeWork = (index + portfolioWorks.length) % portfolioWorks.length;
+  const work = portfolioWorks[activeWork];
+  portfolioThumb.src = thumbnailUrl(work.id);
+  portfolioThumb.alt = `${work.title} portfolio thumbnail`;
+  if (shouldAutoplayInline) {
+    portfolioPlayer.src = embedUrl(work.id);
+    demoCard.classList.add('is-video-mode');
+  } else {
+    portfolioPlayer.removeAttribute('src');
+    demoCard.classList.remove('is-video-mode');
+  }
+  const lang = currentLang === 'en' ? 'en' : 'zh';
+  const loopLabel = lang === 'en' ? 'Portfolio Loop' : '作品循环';
+  portfolioKicker.textContent = `${loopLabel} · ${String(activeWork + 1).padStart(2, '0')} / ${String(portfolioWorks.length).padStart(2, '0')}`;
+  portfolioTitle.textContent = work.title;
+  portfolioTitle.href = work.url;
+  portfolioSub.textContent = work.description[lang];
+  portfolioRole.textContent = work.role[lang];
+  portfolioLink.href = work.url;
+  [...portfolioDots.children].forEach((dot, dotIndex) => {
+    dot.classList.toggle('is-active', dotIndex === activeWork);
+    dot.setAttribute('aria-current', dotIndex === activeWork ? 'true' : 'false');
+  });
+}
+
+portfolioWorks.forEach((work, index) => {
+  const dot = document.createElement('button');
+  dot.className = 'reel-dot';
+  dot.type = 'button';
+  dot.setAttribute('aria-label', `Show ${work.title}`);
+  dot.addEventListener('click', () => setActiveWork(index));
+  portfolioDots.appendChild(dot);
+});
+
+setActiveWork(0);
+setInterval(() => setActiveWork(activeWork + 1), 8000);
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.project-card, .agent-card, .node-card, .stat-card, .timeline-item, .cert-card, .profile-card').forEach(element => {
+  element.style.opacity = '0';
+  element.style.transform = 'translateY(24px)';
+  element.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, background 0.3s';
+  observer.observe(element);
+});
+</script>
+</body>
+</html>
