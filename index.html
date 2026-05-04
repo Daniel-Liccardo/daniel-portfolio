@@ -1662,10 +1662,16 @@
         <div class="tag-row"><span class="tag">Runway</span><span class="tag">Kling</span><span class="tag">Veo</span><span class="tag">Agent Pipeline</span><span class="tag">Automation</span></div>
       </div>
       <div class="project-card">
-        <div class="project-num">04 / 04</div>
+        <div class="project-num">04 / 05</div>
         <h3 data-i18n="work.c4.title">DL Studio — 品牌内容引擎</h3>
         <p data-i18n="work.c4.desc">一人即团队。从 IP 定位、制作计划到平台分发——把品牌内容生产变成可复用的引擎。</p>
         <div class="tag-row"><span class="tag">Brand Content</span><span class="tag">200M+ Views</span><span class="tag">Multi-platform</span><span class="tag">Content Strategy</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">05 / 05</div>
+        <h3 data-i18n="work.c5.title">WSAVA 2024 — 现场制片</h3>
+        <p data-i18n="work.c5.desc">世界兽医大会现场制作管理。多机位调度、实时导播、跨国团队协作——50+ campaign 中的标杆项目。</p>
+        <div class="tag-row"><span class="tag">Event Production</span><span class="tag">Live Direction</span><span class="tag">Multi-cam</span><span class="tag">International</span></div>
       </div>
     </div>
   </section>
@@ -1806,6 +1812,8 @@ const translations = {
     'work.c3.desc': 'Brief → Script → AI Gen → QA → Edit → Delivery. Each step with its own agent, guardrail, and human review.',
     'work.c4.title': 'DL Studio — Brand Content Engine',
     'work.c4.desc': 'A one-person content engine. From IP positioning and production planning to platform distribution—brand content, systematised.',
+    'work.c5.title': 'WSAVA 2024 — On-site Production',
+    'work.c5.desc': 'Production management for WSAVA World Congress. Multi-cam coordination, live direction, cross-border team collaboration — a benchmark among 50+ campaigns.',
     'agents.label': '04 — Agent Stack',
     'agents.title1': 'My AI team',
     'agents.title2': 'Trained & Deployed',
@@ -2081,6 +2089,7 @@ const portfolioWorks = [
   },
   {
     id: '_kHqyFngHXQ',
+    bvid: 'BV13nxxe2EqN',
     title: 'Mindray Animal Medical 2',
     url: 'https://youtu.be/_kHqyFngHXQ?si=6LW8-qQRGK7QtXeS',
     role: {
@@ -2104,6 +2113,21 @@ const portfolioWorks = [
       zh: '适合国际化灵活使用的 campaign 视频资产。',
       en: 'Campaign-ready video asset for flexible international use.'
     }
+  },
+  {
+    id: null,
+    bvid: 'BV1HGxaejEsX',
+    title: 'WSAVA 2024',
+    url: 'https://www.bilibili.com/video/BV1HGxaejEsX',
+    thumbnailId: 'EA9mTY6aH48',
+    role: {
+      zh: '现场制片管理',
+      en: 'On-site Production Manager'
+    },
+    description: {
+      zh: 'WSAVA 世界兽医大会现场制片，多机位统筹与实时调度。',
+      en: 'On-site production for WSAVA World Congress — multi-cam coordination and live direction.'
+    }
   }
 ];
 
@@ -2118,8 +2142,9 @@ const portfolioDots = document.getElementById('portfolioDots');
 let activeWork = 0;
 const shouldAutoplayInline = window.location.protocol === 'https:' || window.location.protocol === 'http:';
 
-function thumbnailUrl(videoId) {
-  return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+function thumbnailUrl(videoId, fallbackId) {
+  const id = videoId || fallbackId;
+  return id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : '';
 }
 
 function embedUrl(videoId) {
@@ -2142,13 +2167,24 @@ function embedUrl(videoId) {
   return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
 }
 
+function bilibiliEmbedUrl(bvid) {
+  return `https://player.bilibili.com/player.html?isOutside=true&bvid=${bvid}&autoplay=1&mute=1&loop=0&controls=0&playsinline=1&danmaku=0`;
+}
+
 function setActiveWork(index) {
   activeWork = (index + portfolioWorks.length) % portfolioWorks.length;
   const work = portfolioWorks[activeWork];
-  portfolioThumb.src = thumbnailUrl(work.id);
+  portfolioThumb.src = thumbnailUrl(work.id, work.thumbnailId);
   portfolioThumb.alt = `${work.title} portfolio thumbnail`;
   if (shouldAutoplayInline) {
-    portfolioPlayer.src = embedUrl(work.id);
+    const useBilibili = currentLang === 'zh' && work.bvid;
+    if (useBilibili) {
+      portfolioPlayer.src = bilibiliEmbedUrl(work.bvid);
+    } else if (work.id) {
+      portfolioPlayer.src = embedUrl(work.id);
+    } else {
+      portfolioPlayer.removeAttribute('src');
+    }
     demoCard.classList.add('is-video-mode');
   } else {
     portfolioPlayer.removeAttribute('src');
@@ -2158,7 +2194,9 @@ function setActiveWork(index) {
   const loopLabel = lang === 'en' ? 'Portfolio Loop' : '作品循环';
   portfolioKicker.textContent = `${loopLabel} · ${String(activeWork + 1).padStart(2, '0')} / ${String(portfolioWorks.length).padStart(2, '0')}`;
   portfolioTitle.textContent = work.title;
-  portfolioTitle.href = work.url;
+  portfolioTitle.href = (currentLang === 'zh' && work.bvid)
+    ? `https://www.bilibili.com/video/${work.bvid}`
+    : work.url;
   portfolioSub.textContent = work.description[lang];
   portfolioRole.textContent = work.role[lang];
   [...portfolioDots.children].forEach((dot, dotIndex) => {
