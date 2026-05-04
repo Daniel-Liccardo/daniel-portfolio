@@ -105,6 +105,22 @@
     cursor: none;
   }
 
+  .light-trail {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.88;
+  }
+
+  nav,
+  main,
+  footer {
+    position: relative;
+    z-index: 1;
+  }
+
   html[lang="zh-Hans"] body {
     letter-spacing: 0.02em;
     line-height: 1.8;
@@ -118,6 +134,11 @@
   html[lang="zh-Hans"] .agent-card h3,
   html[lang="zh-Hans"] .node-title {
     letter-spacing: -0.01em;
+  }
+
+  html[lang="zh-Hans"] .section-title em,
+  html[lang="zh-Hans"] .accent-gradient {
+    font-style: normal;
   }
 
   a { color: inherit; }
@@ -330,6 +351,8 @@
     color: transparent;
     -webkit-text-fill-color: transparent;
     font-style: italic;
+    display: inline-block;
+    padding-right: 0.08em;
   }
 
   .title-tail { white-space: nowrap; }
@@ -665,7 +688,12 @@
   .section-title em {
     color: var(--accent);
     font-style: italic;
+    display: inline-block;
+    padding-right: 0.08em;
+    word-break: keep-all;
   }
+
+  #system .section-title em { padding-right: 0.12em; }
 
   .about-grid,
   .contact-inner {
@@ -773,10 +801,30 @@
   .info-row:last-child { border-bottom: 0; }
   .info-icon { width: 16px; flex: 0 0 16px; color: var(--accent); }
 
+  .profile-logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 0.95rem;
+  }
+
+  .profile-card .logo-pill {
+    padding: 0.46rem 0.82rem;
+    background: var(--bg-2);
+    opacity: 0.72;
+    font-size: 11px;
+  }
+
   .system-diagram {
     margin-top: 3rem;
     padding: 2rem;
     overflow: hidden;
+  }
+
+  .system-flow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
   }
 
   .system-row {
@@ -806,6 +854,24 @@
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     background: var(--bg-2);
+  }
+
+  .system-flow .node-card {
+    position: relative;
+    min-height: 142px;
+    padding-top: 2rem;
+    background: linear-gradient(180deg, rgba(77,163,255,0.08), var(--bg-2));
+  }
+
+  .system-flow .node-card::before {
+    content: attr(data-step);
+    position: absolute;
+    top: 0.75rem;
+    left: 1rem;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
   }
 
   .system-row.orchestration .node-card {
@@ -1083,14 +1149,18 @@
 
   .contact-inner {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     max-width: none;
-    padding: 2.5rem 3rem;
+    margin-top: 2rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    border-radius: 0;
+    align-items: end;
   }
 
   .contact-inner::before {
-    opacity: 0.05;
-    background-size: 32px 32px;
+    display: none;
   }
 
   .contact-inner > * { position: relative; z-index: 1; }
@@ -1098,14 +1168,15 @@
   .cert-list {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 0.6rem;
     margin-top: 1.5rem;
   }
 
   .contact-title {
     font-family: var(--serif);
-    font-size: clamp(30px, 3vw, 44px);
-    line-height: 1.1;
+    font-size: clamp(42px, 6vw, 86px);
+    line-height: 0.98;
+    max-width: 680px;
   }
 
   .contact-title em {
@@ -1114,43 +1185,66 @@
   }
 
   .contact-sub {
-    margin-top: 1rem;
+    max-width: 620px;
+    margin-top: 1.25rem;
     color: var(--text-2);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.7;
+  }
+
+  .contact-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1.5rem;
+  }
+
+  .contact-tag {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.45rem 0.75rem;
+    background: var(--surface);
+    color: var(--text-2);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   .contact-links {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0;
+    border-top: 1px solid var(--border);
   }
 
   .contact-link {
-    display: flex;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
     align-items: center;
-    gap: 14px;
-    padding: 0.7rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--bg-2);
+    gap: 1rem;
+    min-height: 84px;
+    padding: 1.05rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    background: transparent;
     color: var(--text);
     text-decoration: none;
-    transition: border-color 0.2s, background 0.2s;
+    transition: color 0.2s, border-color 0.2s;
   }
 
   .contact-link:hover {
     border-color: rgba(77,163,255,0.44);
-    background: var(--accent-dim);
+    color: var(--accent);
   }
 
   .contact-icon {
     display: grid;
     place-items: center;
-    width: 36px;
-    height: 36px;
-    flex: 0 0 36px;
-    border-radius: var(--radius-sm);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
     background: var(--accent-dim);
     color: var(--accent);
     font-size: 15px;
@@ -1166,8 +1260,10 @@
   }
 
   .contact-value {
+    display: block;
+    margin-top: 0.2rem;
     color: var(--text);
-    font-size: 14px;
+    font-size: clamp(18px, 2vw, 26px);
     font-weight: 700;
     word-break: break-word;
   }
@@ -1196,7 +1292,7 @@
     }
 
     .hero-stats,
-    .row-4,
+    .system-flow,
     .agents-grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -1262,8 +1358,7 @@
     .hero-stats,
     .projects-grid,
     .agents-grid,
-    .row-3,
-    .row-4,
+    .system-flow,
     .system-stats {
       grid-template-columns: 1fr;
     }
@@ -1289,7 +1384,10 @@
     .pipeline .node-card::after { display: none; }
 
     section { padding: 4rem 1rem; }
-    .contact-inner { padding: 2rem; }
+    .contact-inner {
+      gap: 2rem;
+      padding: 0;
+    }
 
     footer {
       flex-direction: column;
@@ -1300,6 +1398,7 @@
 </style>
 </head>
 <body>
+<canvas class="light-trail" id="lightTrail" aria-hidden="true"></canvas>
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
@@ -1328,7 +1427,7 @@
           <span data-i18n="hero.line1">我不只做内容，</span><br>
           <span data-i18n="hero.line2Prefix">我做</span><span class="accent-gradient" data-i18n="hero.line2Accent">生产内容的系统</span><span data-i18n="hero.line2Suffix">。</span>
         </h1>
-        <p class="hero-sub" data-i18n="hero.sub">我把视频制作、AI Agent 和记忆系统组合成一条可复用的内容生产线——团队拿到 brief 就能开始执行，不用每次从零搭建。</p>
+        <p class="hero-sub" data-i18n="hero.sub">我把视频制作、AI Agent 和记忆系统组合成一条可复用的内容生产线——团队拿到 brief 就能出活，不用每次从零开始。</p>
         <div class="hero-actions">
           <a href="#work" class="btn-primary" data-i18n="hero.primary">查看作品 →</a>
           <a href="#contact" class="btn-secondary" data-i18n="hero.secondary">联系我</a>
@@ -1344,11 +1443,11 @@
           </div>
           <div>
             <div class="stat-num">3 Platforms</div>
-            <div class="stat-label" data-i18n="hero.stat3">一套记忆，多平台输出</div>
+            <div class="stat-label" data-i18n="hero.stat3">一套记忆，多端部署</div>
           </div>
           <div>
             <div class="stat-num">228</div>
-            <div class="stat-label" data-i18n="hero.stat4">2.5 小时处理 228 个素材</div>
+            <div class="stat-label" data-i18n="hero.stat4">2.5 小时处理素材</div>
           </div>
         </div>
       </div>
@@ -1399,17 +1498,11 @@
 
   <section id="about">
     <div class="section-label" data-i18n="about.label">01 — 关于</div>
-    <h2 class="section-title"><span data-i18n="about.title1">Creative Technologist</span><br><em data-i18n="about.title2">× AI System Builder</em></h2>
+    <h2 class="section-title"><span data-i18n="about.title1">制作能力</span><br><em data-i18n="about.title2">加上一套操作系统</em></h2>
     <div class="about-grid">
       <div class="about-text">
-        <p data-i18n="about.p1">Daniel Li / 李绵泰，常驻伦敦的 AI 内容系统搭建者。Warwick 硕士 + Durham 本科，工作覆盖商业视频制作、AI 管线与内容系统搭建。</p>
-        <p data-i18n="about.p2">不只拍摄剪辑——我围绕内容搭建记忆库、Agent、审核关卡和交付流程，让创意生产从一次性创作变成可复用系统。适合需要「制作能力 + AI 基建」的团队。</p>
-        <div class="logo-strip" aria-label="合作与教育机构">
-          <span class="logo-pill">Mindray Animal Medical</span>
-          <span class="logo-pill">Durham University</span>
-          <span class="logo-pill">Celestial Globe</span>
-          <span class="logo-pill">DL Studio</span>
-        </div>
+        <p data-i18n="about.p1">我是 Daniel Li / 李绵泰，常驻伦敦，专注把商业视频制作、AI Agent 与内容管理流程连接成可复用系统。我拥有 Warwick 硕士和 Durham 本科学历，做过商业视频、教育项目和学生媒体管理。</p>
+        <p data-i18n="about.p2">我的优势不只是拍摄剪辑，而是把 brief、记忆库、Prompt、审核关卡和交付流程串起来，让创意生产从一次性执行变成可以复制的工作流。适合需要「制作能力 + AI 基建」的团队。</p>
         <div class="timeline">
           <div class="timeline-item">
             <div class="timeline-date">2024–2025</div>
@@ -1425,15 +1518,21 @@
       </div>
       <aside class="profile-card">
         <div class="avatar">
-          <img class="avatar-photo" src="assets/daniel-photo.jpg" alt="Daniel Li portrait" onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
+          <img class="avatar-photo" src="assets/daniel-photo-20260504.jpg" alt="Daniel Li portrait" onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
           <span class="avatar-fallback" hidden>DL</span>
         </div>
         <h3 data-i18n="profile.name">Daniel Li / 李绵泰</h3>
         <div class="role-tag" data-i18n="profile.role">AI 内容系统搭建者</div>
         <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row1">全链路：Camera → Agent → Delivery</span></div>
-        <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row2">商业广告、展会与品牌视频制作</span></div>
+        <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row2">商业、展会与品牌视频制作</span></div>
         <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row3">AI 系统：Memory OS、Agent 配置、Prompt Engineering</span></div>
         <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row4">语言：EN · 粤 · 普 + 4 门拉丁/日耳曼语系基础</span></div>
+        <div class="profile-logos" aria-label="合作与教育机构">
+          <span class="logo-pill">Mindray Animal Medical</span>
+          <span class="logo-pill">Durham University</span>
+          <span class="logo-pill">Celestial Globe</span>
+          <span class="logo-pill">DL Studio</span>
+        </div>
       </aside>
     </div>
   </section>
@@ -1442,27 +1541,37 @@
     <div class="section-label" data-i18n="system.label">02 — 系统</div>
     <h2 class="section-title"><span data-i18n="system.title1">AI 内容</span><br><em data-i18n="system.title2">生产操作系统</em></h2>
     <div class="system-diagram">
-      <div class="system-row row-3">
-        <div class="node-card"><span class="node-icon">📋</span><div class="node-title" data-i18n="system.n1">需求 Brief</div><div class="node-note" data-i18n="system.d1">目标、卖点、受众和限制条件。</div></div>
-        <div class="node-card"><span class="node-icon">📊</span><div class="node-title" data-i18n="system.n2">市场数据</div><div class="node-note" data-i18n="system.d2">竞品动态、渠道趋势和内容信号。</div></div>
-        <div class="node-card"><span class="node-icon">🎯</span><div class="node-title" data-i18n="system.n3">品牌规范</div><div class="node-note" data-i18n="system.d3">语气、声明、视觉语言和边界。</div></div>
-      </div>
-      <div class="system-row row-4 orchestration">
-        <div class="node-card"><span class="node-icon">🧠</span><div class="node-title" data-i18n="system.n4">DANIEL.md 路由</div><div class="node-note" data-i18n="system.d4">按任务类型加载对应记忆。</div></div>
-        <div class="node-card"><span class="node-icon">📚</span><div class="node-title" data-i18n="system.n5">知识库</div><div class="node-note" data-i18n="system.d5">可复用 brief、案例和决策。</div></div>
-        <div class="node-card"><span class="node-icon">🛡️</span><div class="node-title" data-i18n="system.n6">护栏</div><div class="node-note" data-i18n="system.d6">声明、客户数据和质量控制。</div></div>
-        <div class="node-card"><span class="node-icon">🔧</span><div class="node-title" data-i18n="system.n7">技能库</div><div class="node-note" data-i18n="system.d7">专项流程、模板可配置。</div></div>
-      </div>
-      <div class="system-row row-4 pipeline">
-        <div class="node-card"><span class="node-icon">🎬</span><div class="node-title" data-i18n="system.n8">预演与分镜</div><div class="node-note" data-i18n="system.d8">脚本、镜头表和制作计划。</div></div>
-        <div class="node-card"><span class="node-icon">🎨</span><div class="node-title" data-i18n="system.n9">AI 生成</div><div class="node-note" data-i18n="system.d9">参考、素材和可控变体。</div></div>
-        <div class="node-card"><span class="node-icon">✅</span><div class="node-title" data-i18n="system.n10">一致性 QA</div><div class="node-note" data-i18n="system.d10">风格、产品和信息审核。</div></div>
-        <div class="node-card"><span class="node-icon">✂️</span><div class="node-title" data-i18n="system.n11">剪辑与精修</div><div class="node-note" data-i18n="system.d11">成片、字幕和导出包。</div></div>
-      </div>
-      <div class="system-row row-3">
-        <div class="node-card"><span class="node-icon">📱</span><div class="node-title" data-i18n="system.n12">社媒切条</div><div class="node-note" data-i18n="system.d12">符合平台语境的短内容。</div></div>
-        <div class="node-card"><span class="node-icon">🎥</span><div class="node-title" data-i18n="system.n13">主视觉影片</div><div class="node-note" data-i18n="system.d13">核心叙事和 campaign 锚点。</div></div>
-        <div class="node-card"><span class="node-icon">📊</span><div class="node-title" data-i18n="system.n14">数据复盘</div><div class="node-note" data-i18n="system.d14">把效果数据写回记忆库。</div></div>
+      <div class="system-flow">
+        <div class="node-card" data-step="01">
+          <span class="node-icon">📋</span>
+          <div class="node-title" data-i18n="system.step1.title">输入与目标</div>
+          <div class="node-note" data-i18n="system.step1.desc">客户 brief、市场信号、品牌规范。</div>
+        </div>
+        <div class="node-card" data-step="02">
+          <span class="node-icon">🧠</span>
+          <div class="node-title" data-i18n="system.step2.title">记忆与路由</div>
+          <div class="node-note" data-i18n="system.step2.desc">DANIEL.md + 知识库 + 护栏，按任务自动加载。</div>
+        </div>
+        <div class="node-card" data-step="03">
+          <span class="node-icon">🎬</span>
+          <div class="node-title" data-i18n="system.step3.title">预演与脚本</div>
+          <div class="node-note" data-i18n="system.step3.desc">分镜、镜头表、制作计划和资源配置。</div>
+        </div>
+        <div class="node-card" data-step="04">
+          <span class="node-icon">🎨</span>
+          <div class="node-title" data-i18n="system.step4.title">生成与制作</div>
+          <div class="node-note" data-i18n="system.step4.desc">AI 素材生成 + 实拍执行 + 后期整合。</div>
+        </div>
+        <div class="node-card" data-step="05">
+          <span class="node-icon">✅</span>
+          <div class="node-title" data-i18n="system.step5.title">QA 与交付</div>
+          <div class="node-note" data-i18n="system.step5.desc">一致性检查、版本管理、多平台交付。</div>
+        </div>
+        <div class="node-card" data-step="06">
+          <span class="node-icon">📊</span>
+          <div class="node-title" data-i18n="system.step6.title">复盘与回写</div>
+          <div class="node-note" data-i18n="system.step6.desc">表现数据回写记忆库，优化下一轮策略。</div>
+        </div>
       </div>
     </div>
     <div class="system-stats">
@@ -1505,7 +1614,7 @@
 
   <section id="agents">
     <div class="section-label" data-i18n="agents.label">04 — Agent Stack</div>
-    <h2 class="section-title"><span data-i18n="agents.title1">我的 AI 团队</span><br><em data-i18n="agents.title2">已训练，已部署</em></h2>
+    <h2 class="section-title"><span data-i18n="agents.title1">我的 AI 团队</span><br><em data-i18n="agents.title2">— 已训练并部署</em></h2>
     <div class="agents-grid">
       <div class="agent-card"><div class="agent-icon">🧠</div><h3 data-i18n="agents.a1.title">记忆路由器</h3><p data-i18n="agents.a1.desc">根据任务类型把上下文路由到正确知识库。分层加载可减少 60-70% token 成本。</p><span class="tag platform-tag">Notion AI</span></div>
       <div class="agent-card"><div class="agent-icon">🎬</div><h3 data-i18n="agents.a2.title">视频 Brief Agent</h3><p data-i18n="agents.a2.desc">把客户 brief 转成结构化脚本、镜头表和设备计划，适合快速进入制作。</p><span class="tag platform-tag">Claude / ChatGPT</span></div>
@@ -1521,13 +1630,18 @@
     <div class="section-label" data-i18n="contact.label">05 — 联系</div>
     <div class="contact-inner">
       <div>
-        <h2 class="contact-title"><span data-i18n="contact.title1">一起把内容</span><br><em data-i18n="contact.title2">做成系统</em><br><span data-i18n="contact.title3">并交付出去。</span></h2>
-        <p class="contact-sub" data-i18n="contact.sub">开放：全职角色、项目咨询、AI 内容系统搭建。当前常驻伦敦。</p>
+        <h2 class="contact-title"><span data-i18n="contact.title1">把内容生产</span><br><em data-i18n="contact.title2">做成系统。</em></h2>
+        <p class="contact-sub" data-i18n="contact.sub">可合作方向：全职岗位、咨询项目、AI 内容生产系统搭建。当前常驻伦敦。</p>
+        <div class="contact-tags" aria-label="合作方向">
+          <span class="contact-tag" data-i18n="contact.tag1">全职岗位</span>
+          <span class="contact-tag" data-i18n="contact.tag2">咨询项目</span>
+          <span class="contact-tag" data-i18n="contact.tag3">AI 内容系统</span>
+        </div>
       </div>
       <div class="contact-links">
-        <div class="contact-link"><span class="contact-icon">✉</span><span><span class="contact-label">Email</span><span class="contact-value">m***@outlook.com</span></span></div>
+        <div class="contact-link"><span class="contact-icon">@</span><span><span class="contact-label">Email</span><span class="contact-value">m***@outlook.com</span></span></div>
         <div class="contact-link"><span class="contact-icon">☎</span><span><span class="contact-label">Phone</span><span class="contact-value">+44 7*** *** 4217</span></span></div>
-        <div class="contact-link"><span class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.17-.249 1.805-.413 2.227-.217.562-.477.96-.896 1.382-.421.419-.82.679-1.381.896-.422.164-1.058.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.053-1.805-.249-2.227-.413-.562-.217-.96-.477-1.382-.896-.419-.421-.679-.82-.896-1.381-.164-.422-.36-1.058-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.053-1.17.249-1.805.413-2.227.217-.562.477-.96.896-1.382.421-.419.82-.679 1.381-.896.422-.164 1.058-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.938.306.789.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.789.297 1.66.495 2.938.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.261 2.938-.558.789-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.297-.789.495-1.66.558-2.938C23.986 15.667 24 15.259 24 12s-.014-3.667-.072-4.947c-.06-1.277-.261-2.148-.558-2.938-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.789-.297-1.66-.495-2.938-.558C15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></span><span><span class="contact-label">Instagram</span><span class="contact-value" style="margin-left:auto;text-align:right">@daniel.liccardo</span></span></div>
+        <div class="contact-link"><span class="contact-icon">◎</span><span><span class="contact-label">Instagram</span><span class="contact-value" style="margin-left:auto;text-align:right">@daniel.liccardo</span></span></div>
       </div>
     </div>
   </section>
@@ -1555,36 +1669,48 @@ const translations = {
     'hero.line2Prefix': 'I build ',
     'hero.line2Accent': 'systems that produce content',
     'hero.line2Suffix': '.',
-    'hero.sub': 'I combine video production, AI agents, and memory systems into a reusable content production line—teams go from brief to execution without rebuilding each time.',
+    'hero.sub': 'I combine video production, AI agents, and memory systems into a reusable content production line, so teams can move from brief to output without starting from scratch each time.',
     'hero.primary': 'View work ->',
     'hero.secondary': 'Contact',
     'hero.stat1': 'Years in production and project management',
     'hero.stat2': 'Cross-platform content views',
-    'hero.stat3': 'One memory, multi-platform output',
-    'hero.stat4': '2.5 hrs — 228 assets processed',
+    'hero.stat3': 'One memory, multi-platform deployment',
+    'hero.stat4': '2.5-hour asset processing run',
     'portfolio.meta.role': 'Role',
     'portfolio.meta.mode': 'Mode',
     'portfolio.meta.modeValue': 'AI + Traditional',
     'portfolio.meta.edge': 'Edge',
     'portfolio.meta.edgeValue': 'Agent-powered pipeline',
     'about.label': '01 — About',
-    'about.title1': 'Creative Technologist',
-    'about.title2': '× AI System Builder',
-    'about.p1': 'Daniel Li is a London-based AI content system builder. MA Warwick + BA Durham. Work spans commercial video, AI pipelines, and content system builds.',
-    'about.p2': "Doesn't just shoot & edit — builds memory bases, agents, review gates, and delivery workflows around content, turning one-off creation into reusable systems. For teams that need production + AI infra.",
+    'about.title1': 'Production skill',
+    'about.title2': 'with an operating system',
+    'about.p1': 'I am Daniel Li, a London-based AI content system builder focused on connecting commercial video production, AI agents, and content operations into reusable systems. I hold an MA from Warwick and a BA from Durham, with experience across commercial video, education projects, and student media management.',
+    'about.p2': 'My edge is not only shooting and editing. I connect briefs, memory bases, prompts, review gates, and delivery workflows so creative production becomes repeatable. This fits teams that need production capability plus AI infrastructure.',
         'profile.name': 'Daniel Li / 李绵泰',
     'profile.role': 'AI Content System Builder',
     'profile.row1': 'Full chain: Camera -> Agent -> Delivery',
-    'profile.row2': 'Commercial advertising, events, and brand video production',
+    'profile.row2': 'Commercial, event, and brand video production',
     'profile.row3': 'AI systems: Memory OS, agent configuration, prompt engineering',
     'profile.row4': 'Languages: EN · Cantonese · Mandarin + 4 Latin/Germanic basics',
     'system.label': '02 — System',
     'system.title1': 'AI content',
     'system.title2': 'production operating system',
-    'system.n1': 'Demand Brief',
+    'system.step1.title': 'Inputs & Goals',
+    'system.step1.desc': 'Client brief, market signals, and brand rules.',
+    'system.step2.title': 'Memory & Routing',
+    'system.step2.desc': 'DANIEL.md, knowledge base, and guardrails loaded by task type.',
+    'system.step3.title': 'Previs & Script',
+    'system.step3.desc': 'Storyboard, shot list, production plan, and resource mapping.',
+    'system.step4.title': 'Generation & Production',
+    'system.step4.desc': 'AI asset generation, camera execution, and post integration.',
+    'system.step5.title': 'QA & Delivery',
+    'system.step5.desc': 'Consistency checks, version control, and multi-platform delivery.',
+    'system.step6.title': 'Review & Writeback',
+    'system.step6.desc': 'Performance data written back into memory for the next cycle.',
+    'system.n1': 'Client Brief',
     'system.d1': 'Goals, selling points, audience, and constraints.',
     'system.n2': 'Market Data',
-    'system.d2': 'Competitor moves, channel trends, and content signals.',
+    'system.d2': 'Competitors, channels, and content signals.',
     'system.n3': 'Brand Rules',
     'system.d3': 'Voice, claims, visual language, and boundaries.',
     'system.n4': 'DANIEL.md Routing',
@@ -1594,7 +1720,7 @@ const translations = {
     'system.n6': 'Guardrails',
     'system.d6': 'Claims, client data, and quality control.',
     'system.n7': 'Skill Library',
-    'system.d7': 'Specialised workflows, configurable templates.',
+    'system.d7': 'Specialized workflows and templates.',
     'system.n8': 'Previs & Storyboard',
     'system.d8': 'Scripts, shot lists, and production planning.',
     'system.n9': 'AI Generation',
@@ -1608,7 +1734,7 @@ const translations = {
     'system.n13': 'Hero Film',
     'system.d13': 'Core narrative and campaign anchor.',
     'system.n14': 'Data Review',
-    'system.d14': 'Performance data written back into the memory base.',
+    'system.d14': 'Performance feedback written back into memory.',
     'system.s1': 'Lower token cost through layered memory loading',
     'system.s2': '228 assets processed with AI + SQL and zero errors',
     'system.s3': 'One configuration across Notion AI / Codex / Claude',
@@ -1624,7 +1750,7 @@ const translations = {
     'work.c4.desc': 'Built a one-person content production system for commercial and brand projects, turning IP positioning, production planning, and platform distribution into a reusable workflow.',
     'agents.label': '04 — Agent Stack',
     'agents.title1': 'My AI team',
-    'agents.title2': 'trained & deployed',
+    'agents.title2': 'trained and deployed',
     'agents.a1.title': 'Memory Router',
     'agents.a1.desc': 'Routes context to the right knowledge base by task type. Layered loading can reduce token cost by 60-70%.',
     'agents.a2.title': 'Video Brief Agent',
@@ -1639,11 +1765,14 @@ const translations = {
     'agents.a6.desc': 'Batch-converts raw content into structured knowledge entries. Previously processed 228 assets in 2.5 hours with zero errors.',
                 'credentials.edu1.title': 'MA Education Leadership & Management',
     'credentials.edu2.title': 'BA Business Management',
-    'contact.label': '06 — Contact',
-    'contact.title1': "Let's build",
-    'contact.title2': 'the content system',
-    'contact.title3': 'and ship it.',
-    'contact.sub': 'Open to: full-time roles, project consulting, AI content system builds. Currently based in London.',
+    'contact.label': '05 — Contact',
+    'contact.title1': 'Make content production',
+    'contact.title2': 'work as a system.',
+    'contact.title3': '',
+    'contact.sub': 'Available for full-time roles, consulting, and AI content system builds. Currently based in London.',
+    'contact.tag1': 'Full-time roles',
+    'contact.tag2': 'Consulting',
+    'contact.tag3': 'AI content systems',
     'footer.line1': '© 2026 Daniel Li · AI Content System Builder',
     'footer.line2': 'Built with systems thinking · Powered by agent workflows'
   }
@@ -1740,6 +1869,94 @@ if (langToggle) {
 
 initTheme();
 applyLanguage(currentLang);
+
+function initLightTrail() {
+  const canvas = document.getElementById('lightTrail');
+  if (!canvas) return;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+  if (prefersReducedMotion || isCoarsePointer || window.innerWidth <= 767) {
+    canvas.style.display = 'none';
+    return;
+  }
+
+  const ctx = canvas.getContext('2d', { alpha: true });
+  if (!ctx) return;
+
+  const points = [];
+  let width = 0;
+  let height = 0;
+  let lastX = window.innerWidth * 0.72;
+  let lastY = window.innerHeight * 0.24;
+
+  function resizeTrail() {
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.floor(width * ratio);
+    canvas.height = Math.floor(height * ratio);
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  }
+
+  function addPoint(x, y, force = 1) {
+    const dx = x - lastX;
+    const dy = y - lastY;
+    const distance = Math.hypot(dx, dy);
+    const steps = Math.max(1, Math.min(8, Math.floor(distance / 16)));
+
+    for (let i = 1; i <= steps; i += 1) {
+      points.push({
+        x: lastX + (dx * i) / steps,
+        y: lastY + (dy * i) / steps,
+        life: 1,
+        size: 8 + Math.min(distance, 92) * 0.08 * force,
+        hueShift: Math.random() * 0.14
+      });
+    }
+
+    lastX = x;
+    lastY = y;
+    if (points.length > 120) points.splice(0, points.length - 120);
+  }
+
+  function drawTrail() {
+    ctx.clearRect(0, 0, width, height);
+    ctx.globalCompositeOperation = 'lighter';
+
+    for (let i = points.length - 1; i >= 0; i -= 1) {
+      const point = points[i];
+      point.life -= 0.02;
+      if (point.life <= 0) {
+        points.splice(i, 1);
+        continue;
+      }
+
+      const radius = point.size * (0.82 + (1 - point.life) * 1.35);
+      const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
+      gradient.addColorStop(0, `rgba(77, 163, 255, ${0.24 * point.life})`);
+      gradient.addColorStop(0.4, `rgba(0, 212, 170, ${0.16 * point.life + point.hueShift * 0.04})`);
+      gradient.addColorStop(1, 'rgba(0, 212, 170, 0)');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    requestAnimationFrame(drawTrail);
+  }
+
+  window.addEventListener('resize', resizeTrail);
+  window.addEventListener('pointermove', event => addPoint(event.clientX, event.clientY));
+  window.addEventListener('pointerdown', event => addPoint(event.clientX, event.clientY, 1.9));
+
+  resizeTrail();
+  addPoint(lastX, lastY, 0.9);
+  drawTrail();
+}
+
+initLightTrail();
 
 const cursor = document.getElementById('cursor');
 const cursorRing = document.getElementById('cursorRing');
