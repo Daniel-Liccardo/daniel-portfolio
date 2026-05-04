@@ -12,5 +12,4 @@ jobs:
       - name: Deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: 9eed62184bfc69202bf563ce85664203
-        run: npx wrangler pages deploy . --project-name=daniel-portfolio --branch=main --commit-dirty=true
+        run: npx wrangler@latest pages deploy . --project-name=daniel-portfolio --branch=main --commit-dirty=true
