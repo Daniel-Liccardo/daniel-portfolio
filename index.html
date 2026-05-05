@@ -812,9 +812,12 @@
 
   .profile-logos {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem;
-    margin-top: 0.95rem;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.2rem;
+    padding: 0 0.25rem;
   }
 
   .profile-card .logo-pill {
@@ -825,8 +828,10 @@
   }
 
   .profile-card .logo-img {
-    height: 28px;
+    height: 32px;
     width: auto;
+    max-width: 33%;
+    object-fit: contain;
     opacity: 0.80;
     filter: brightness(0) invert(1);
     transition: opacity 0.2s, filter 0.2s;
@@ -901,20 +906,14 @@
 
   .system-flow .node-card {
     position: relative;
-    min-height: 142px;
-    padding-top: 2rem;
-    background: linear-gradient(180deg, rgba(77,163,255,0.08), var(--bg-2));
+    min-height: 130px;
+    padding: 1.5rem 1.25rem 1.25rem;
+    background: linear-gradient(180deg, rgba(77,163,255,0.06), var(--bg-2));
+    border-left: 2px solid var(--accent);
   }
 
   .system-flow .node-card::before {
-    content: attr(data-step);
-    position: absolute;
-    top: 0.75rem;
-    left: 1rem;
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
+    display: none;
   }
 
   .system-row.orchestration .node-card {
@@ -923,10 +922,18 @@
   }
 
   .node-icon {
+    display: none;
+  }
+
+  .node-card .step-num {
     display: block;
-    margin-bottom: 0.6rem;
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
     color: var(--accent);
-    font-size: 20px;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
   }
 
   .node-title {
@@ -1012,7 +1019,7 @@
     transform: translateY(-4px);
   }
 
-  .project-card::after {
+  .project-card:not([data-flow])::after {
     content: '↗';
     position: absolute;
     top: 1.25rem;
@@ -1021,9 +1028,14 @@
     transition: color 0.2s, transform 0.2s;
   }
 
-  .project-card:hover::after {
+  .project-card:not([data-flow]):hover::after {
     color: var(--accent);
     transform: translate(2px, -2px);
+  }
+
+  .project-card[data-flow]:hover {
+    border-color: var(--accent);
+    background: var(--surface-2);
   }
 
   .project-num {
@@ -1459,6 +1471,105 @@
       text-align: center;
     }
   }
+
+  .flow-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  .flow-modal-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .flow-modal {
+    position: relative;
+    width: min(900px, 90vw);
+    max-height: 85vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 3rem;
+  }
+  .flow-modal-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface-2);
+    color: var(--text-2);
+    font-size: 18px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .flow-modal-close:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .flow-modal h3 {
+    font-family: var(--serif);
+    font-size: 28px;
+    margin-bottom: 0.5rem;
+  }
+  .flow-modal .flow-sub {
+    color: var(--text-2);
+    font-size: 14px;
+    margin-bottom: 2rem;
+  }
+  .modal-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+  .modal-flow .node-card {
+    min-height: 120px;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-2);
+    border-left: 2px solid var(--accent);
+  }
+  .modal-flow .node-card .step-num {
+    display: block;
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    opacity: 0.7;
+  }
+  .modal-flow .node-title {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .modal-flow .node-note {
+    color: var(--text-3);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  @media (max-width: 767px) {
+    .flow-modal {
+      padding: 2rem 1.25rem;
+    }
+    .modal-flow {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1605,32 +1716,32 @@
     <div class="system-diagram">
       <div class="system-flow">
         <div class="node-card" data-step="01">
-          <span class="node-icon">📋</span>
+          <span class="step-num">01</span>
           <div class="node-title" data-i18n="system.step1.title">输入与目标</div>
           <div class="node-note" data-i18n="system.step1.desc">客户 brief、市场信号、品牌规范。</div>
         </div>
         <div class="node-card" data-step="02">
-          <span class="node-icon">🧠</span>
+          <span class="step-num">02</span>
           <div class="node-title" data-i18n="system.step2.title">记忆与路由</div>
           <div class="node-note" data-i18n="system.step2.desc">DANIEL.md + 知识库 + 护栏，按任务自动加载。</div>
         </div>
         <div class="node-card" data-step="03">
-          <span class="node-icon">🎬</span>
+          <span class="step-num">03</span>
           <div class="node-title" data-i18n="system.step3.title">预演与脚本</div>
           <div class="node-note" data-i18n="system.step3.desc">分镜、镜头表、制作计划和资源配置。</div>
         </div>
         <div class="node-card" data-step="04">
-          <span class="node-icon">🎨</span>
+          <span class="step-num">04</span>
           <div class="node-title" data-i18n="system.step4.title">生成与制作</div>
           <div class="node-note" data-i18n="system.step4.desc">AI 素材生成 + 实拍执行 + 后期整合。</div>
         </div>
         <div class="node-card" data-step="05">
-          <span class="node-icon">✅</span>
+          <span class="step-num">05</span>
           <div class="node-title" data-i18n="system.step5.title">QA 与交付</div>
           <div class="node-note" data-i18n="system.step5.desc">一致性检查、版本管理、多平台交付。</div>
         </div>
         <div class="node-card" data-step="06">
-          <span class="node-icon">📊</span>
+          <span class="step-num">06</span>
           <div class="node-title" data-i18n="system.step6.title">复盘与回写</div>
           <div class="node-note" data-i18n="system.step6.desc">表现数据回写记忆库，优化下一轮策略。</div>
         </div>
@@ -1647,7 +1758,7 @@
     <div class="section-label" data-i18n="work.label">03 — 作品</div>
     <h2 class="section-title"><span data-i18n="work.title1">精选</span><br><em data-i18n="work.title2">案例</em></h2>
     <div class="projects-grid">
-      <div class="project-card">
+      <div class="project-card" data-flow="work-c1">
         <div class="project-num">01 / 04</div>
         <h3 data-i18n="work.c1.title">AI 内容生产 OS</h3>
         <p data-i18n="work.c1.desc">分层记忆架构，跨 Notion AI、Claude、Codex 路由上下文。AI + SQL 批处理，228 个素材 2.5 小时零差错。</p>
@@ -1659,13 +1770,13 @@
         <p data-i18n="work.c2.desc">全球兽医品牌端到端商业影片。创意策划、摄影、AI 辅助后期、多版本交付——全流程。</p>
         <div class="tag-row"><span class="tag">Commercial Video</span><span class="tag">Producer</span><span class="tag">DoP</span><span class="tag">AI Post</span><span class="tag">Brand Film</span></div>
       </a>
-      <div class="project-card">
+      <div class="project-card" data-flow="work-c3">
         <div class="project-num">03 / 04</div>
         <h3 data-i18n="work.c3.title">AI 视频生产流程</h3>
         <p data-i18n="work.c3.desc">Brief → 脚本 → AI 生成 → 审核 → 剪辑 → 交付。每步有专属 Agent、护栏和人工复核。</p>
         <div class="tag-row"><span class="tag">Runway</span><span class="tag">Kling</span><span class="tag">Veo</span><span class="tag">Agent Pipeline</span><span class="tag">Automation</span></div>
       </div>
-      <div class="project-card">
+      <div class="project-card" data-flow="work-c4">
         <div class="project-num">04 / 04</div>
         <h3 data-i18n="work.c4.title">DL Studio — 品牌内容引擎</h3>
         <p data-i18n="work.c4.desc">一人即团队。从 IP 定位、制作计划到平台分发——把品牌内容生产变成可复用的引擎。</p>
@@ -1704,11 +1815,18 @@
       </div>
       <div class="contact-links">
         <a class="contact-link" href="mailto:mtli215@outlook.com"><span class="contact-icon">@</span><span class="contact-value">mtli215@outlook.com</span></a>
-        <a class="contact-link" href="tel:+447519744217"><span class="contact-icon">☎</span><span class="contact-value">+44 7519 744217</span></a>
+        <a class="contact-link" id="phoneLink" href="tel:+447519744217"><span class="contact-icon">☎</span><span class="contact-value" id="phoneValue">+44 7519 744217</span></a>
         <a class="contact-link" href="https://instagram.com/daniel.liccardo" target="_blank" rel="noreferrer"><span class="contact-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></span><span class="contact-value">@daniel.liccardo</span></a>
       </div>
     </div>
   </section>
+
+  <div class="flow-modal-overlay" id="flowModalOverlay" aria-hidden="true">
+    <div class="flow-modal" id="flowModal" role="dialog" aria-modal="true">
+      <button class="flow-modal-close" id="flowModalClose" aria-label="关闭">&times;</button>
+      <div id="flowModalContent"></div>
+    </div>
+  </div>
 </main>
 
 <footer>
@@ -1717,6 +1835,45 @@
 </footer>
 
 <script>
+
+const flowCharts = {
+  'work-c1': {
+    title: { zh: 'AI 内容生产 OS', en: 'AI Content Production OS' },
+    sub: { zh: '分层记忆架构，跨平台路由', en: 'Layered memory architecture, cross-platform routing' },
+    nodes: [
+      { zh: '记忆层', en: 'Memory Layer', note: { zh: 'DANIEL.md + 知识库 + 过往案例', en: 'DANIEL.md + KB + past cases' } },
+      { zh: '路由层', en: 'Routing Layer', note: { zh: '按任务类型自动加载对应上下文', en: 'Auto-load context by task type' } },
+      { zh: '护栏层', en: 'Guardrails', note: { zh: '品牌规范、合规检查、质量红线', en: 'Brand rules, compliance, quality gates' } },
+      { zh: '技能层', en: 'Skill Layer', note: { zh: '专项 Agent + 工作流模板', en: 'Specialized agents + workflow templates' } },
+      { zh: '输出层', en: 'Output Layer', note: { zh: 'Notion AI / Claude / Codex 多端交付', en: 'Notion AI / Claude / Codex delivery' } },
+      { zh: '复盘回写', en: 'Review & Writeback', note: { zh: '表现数据回写记忆库，持续优化', en: 'Performance data written back to memory' } }
+    ]
+  },
+  'work-c3': {
+    title: { zh: 'AI 视频生产流程', en: 'AI Video Production Workflow' },
+    sub: { zh: '从 Brief 到成片的 Agent 驱动管线', en: 'Agent-driven pipeline from brief to screen' },
+    nodes: [
+      { zh: 'Brief 解析', en: 'Brief Parse', note: { zh: '客户需求 → 结构化脚本 + 镜头表', en: 'Client brief → structured script + shot list' } },
+      { zh: '预演脚本', en: 'Previs & Script', note: { zh: '分镜、设备计划、资源配置', en: 'Storyboard, equipment plan, resources' } },
+      { zh: 'AI 生成', en: 'AI Generation', note: { zh: 'Runway / Kling / Veo 多模型生成', en: 'Runway / Kling / Veo multi-model gen' } },
+      { zh: '一致性 QA', en: 'Consistency QA', note: { zh: '风格、产品、信息三重审核', en: 'Style, product, message triple check' } },
+      { zh: '剪辑精修', en: 'Edit & Polish', note: { zh: 'DaVinci Resolve 精剪 + 调色 + 字幕', en: 'DaVinci Resolve: cut, grade, caption' } },
+      { zh: '多平台交付', en: 'Multi-platform', note: { zh: '社媒短片 / 品牌正片 / 数据复盘', en: 'Social cuts / hero film / data review' } }
+    ]
+  },
+  'work-c4': {
+    title: { zh: 'DL Studio — 品牌内容引擎', en: 'DL Studio — Brand Content Engine' },
+    sub: { zh: '一人即团队，可复用的内容生产引擎', en: 'One-person content engine, built for reuse' },
+    nodes: [
+      { zh: 'IP 定位', en: 'IP Positioning', note: { zh: '品牌人格、叙事主线、视觉语言', en: 'Brand persona, narrative, visual language' } },
+      { zh: '制作计划', en: 'Production Plan', note: { zh: '内容日历、资源调配、预算规划', en: 'Content calendar, resources, budget' } },
+      { zh: '内容生产', en: 'Content Production', note: { zh: '拍摄 + AI 生成 + 后期整合', en: 'Shoot + AI gen + post integration' } },
+      { zh: '平台分发', en: 'Distribution', note: { zh: '小红书 / LinkedIn / TikTok / YouTube / X', en: 'XHS / LinkedIn / TikTok / YouTube / X' } },
+      { zh: '数据复盘', en: 'Data Review', note: { zh: '200M+ 播放，持续优化策略', en: '200M+ views, continuous optimization' } }
+    ]
+  }
+};
+
 const translations = {
   en: {
     'meta.title': 'Daniel Li | AI Content System Builder',
@@ -1911,6 +2068,7 @@ function applyLanguage(lang) {
   }
   localStorage.setItem('danielPortfolioLang', currentLang);
   updateThemeButton();
+  updatePhone();
 }
 
 if (themeToggle) {
@@ -1931,6 +2089,19 @@ if (langToggle) {
     applyLanguage(currentLang === 'zh' ? 'en' : 'zh');
     setActiveWork(activeWork);
   });
+}
+
+function updatePhone() {
+  const phoneLink = document.getElementById('phoneLink');
+  const phoneValue = document.getElementById('phoneValue');
+  if (!phoneLink || !phoneValue) return;
+  if (currentLang === 'zh') {
+    phoneLink.href = 'tel:+8613640959044';
+    phoneValue.textContent = '+86 136 4095 9044';
+  } else {
+    phoneLink.href = 'tel:+447519744217';
+    phoneValue.textContent = '+44 7519 744217';
+  }
 }
 
 initTheme();
@@ -2232,6 +2403,61 @@ document.querySelectorAll('.project-card, .agent-card, .node-card, .stat-card, .
   element.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, background 0.3s';
   observer.observe(element);
 });
+
+const flowModalOverlay = document.getElementById('flowModalOverlay');
+const flowModalContent = document.getElementById('flowModalContent');
+const flowModalClose = document.getElementById('flowModalClose');
+
+function openFlowChart(cardId) {
+  const data = flowCharts[cardId];
+  if (!data) return;
+  const lang = currentLang === 'en' ? 'en' : 'zh';
+  let html = '<h3>' + data.title[lang] + '</h3>';
+  html += '<p class="flow-sub">' + data.sub[lang] + '</p>';
+  html += '<div class="modal-flow">';
+  data.nodes.forEach((node, i) => {
+    html += '<div class="node-card">';
+    html += '<span class="step-num">' + String(i + 1).padStart(2, '0') + '</span>';
+    html += '<div class="node-title">' + node[lang] + '</div>';
+    html += '<div class="node-note">' + node.note[lang] + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  flowModalContent.innerHTML = html;
+  flowModalOverlay.classList.add('is-open');
+  flowModalOverlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFlowChart() {
+  flowModalOverlay.classList.remove('is-open');
+  flowModalOverlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+flowModalClose.addEventListener('click', closeFlowChart);
+flowModalOverlay.addEventListener('click', (e) => {
+  if (e.target === flowModalOverlay) closeFlowChart();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && flowModalOverlay.classList.contains('is-open')) closeFlowChart();
+});
+
+document.querySelectorAll('.project-card[data-flow]').forEach(card => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', (e) => {
+    // Don't trigger if clicking a link inside or if card itself is a link
+    if (e.target.closest('a')) return;
+    if (card.tagName === 'A') return;
+    openFlowChart(card.dataset.flow);
+  });
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') openFlowChart(card.dataset.flow);
+  });
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('role', 'button');
+});
+
 </script>
 </body>
 </html>
