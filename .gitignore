@@ -3,3 +3,10 @@ dist/
 AIGC-生图/
 daniel-portfolio-blue-v1.html
 *.zip
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
