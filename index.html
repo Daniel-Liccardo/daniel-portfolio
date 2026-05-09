@@ -50,8 +50,8 @@
     --serif: 'DM Serif Display', 'Smiley Sans', 'Noto Serif SC', serif;
     --mono: 'DM Mono', monospace;
     --sans: 'Instrument Sans', 'Noto Sans SC', sans-serif;
-    --radius: 8px;
-    --radius-sm: 6px;
+    --radius: 28px;
+    --radius-sm: 18px;
   }
 
   [data-theme="light"] {
@@ -79,7 +79,7 @@
   }
 
   [data-theme="light"] .accent-gradient {
-    background: linear-gradient(135deg, #2563eb, #009978);
+    background: linear-gradient(135deg, #1d4ed8, #0f766e);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -87,7 +87,7 @@
   }
 
   [data-theme="light"] .section-title em {
-    background: linear-gradient(135deg, #2563eb, #009978);
+    background: linear-gradient(135deg, #1d4ed8, #0f766e);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -96,26 +96,26 @@
   }
 
   [data-theme="light"] .btn-primary {
-    background: linear-gradient(135deg, #4da3ff, #00d4aa);
+    background: linear-gradient(135deg, #2563eb, #0d9488);
     color: #fff;
-    box-shadow: 0 2px 12px rgba(77,163,255,0.2);
+    box-shadow: 0 2px 12px rgba(37,99,235,0.25);
   }
 
   [data-theme="light"] .btn-primary:hover {
-    box-shadow: 0 6px 24px rgba(77,163,255,0.35);
+    box-shadow: 0 6px 24px rgba(37,99,235,0.4);
   }
 
   [data-theme="light"] .nav-cta {
-    background: linear-gradient(135deg, #4da3ff, #00d4aa);
+    background: linear-gradient(135deg, #2563eb, #0d9488);
     color: #fff;
   }
 
   [data-theme="light"] .section-label {
-    color: #2563eb;
+    color: #1d4ed8;
   }
 
   [data-theme="light"] .node-card {
-    border-left-color: #4da3ff;
+    border-left-color: #1d4ed8;
   }
 
   [data-theme="light"] .hero-portrait-frame {
@@ -130,6 +130,29 @@
       0 8px 32px rgba(0,0,0,0.12),
       0 0 0 1px rgba(37,99,235,0.35),
       0 0 80px -10px rgba(0,212,170,0.25);
+  }
+
+  [data-theme="light"] .contact-title em {
+    background: linear-gradient(135deg, #1d4ed8, #0f766e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+  }
+
+  [data-theme="light"] .light-trail {
+    mix-blend-mode: multiply;
+    opacity: 0.45;
+  }
+
+  [data-theme="light"] .cursor {
+    mix-blend-mode: normal;
+    background: #1d4ed8;
+  }
+
+  [data-theme="light"] .cursor-ring {
+    border-color: rgba(29,78,216,0.6);
   }
 
   @media (prefers-color-scheme: light) {
@@ -491,6 +514,7 @@
     font-style: italic;
     display: inline-block;
     padding-right: 0.08em;
+    white-space: nowrap;
   }
 
   .title-tail { white-space: nowrap; }
@@ -562,6 +586,12 @@
     align-items: end;
   }
 
+  .hero-stats > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
   .stat-num {
     font-family: var(--serif);
     font-size: 34px;
@@ -570,7 +600,6 @@
   }
 
   .stat-label {
-    margin-top: 0.45rem;
     color: var(--text-3);
     font-size: 11px;
     line-height: 1.35;
@@ -761,7 +790,7 @@
     display: flex;
     gap: 3rem;
     width: max-content;
-    animation: marquee 34s linear infinite;
+    animation: marquee 55s linear infinite;
   }
 
   .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
@@ -816,11 +845,16 @@
   }
 
   .section-title em {
-    color: var(--accent);
+    background: linear-gradient(135deg, #4da3ff, #00d4aa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
     font-style: italic;
     display: inline-block;
     padding-right: 0.08em;
     word-break: keep-all;
+    white-space: nowrap;
   }
 
   #system .section-title em { padding-right: 0.12em; }
@@ -844,18 +878,49 @@
     line-height: 1.95;
   }
 
+  .about-tagline {
+    font-family: var(--serif);
+    font-size: 22px;
+    margin-top: 0.5rem;
+  }
+
+  .about-tagline .accent-gradient {
+    font-style: italic;
+  }
+
   .profile-card,
-  .system-diagram,
   .contact-inner,
   .card,
   .project-card,
   .agent-card,
   .stat-card,
-  .timeline-item,
   .cert-card {
-    border: 1px solid var(--border);
-    background: var(--surface);
+    border: 1px solid oklch(1 0 0 / 0.12);
+    background:
+      linear-gradient(105deg, oklch(1 0 0 / 0.06) 0%, oklch(1 0 0 / 0.015) 40%, oklch(1 0 0 / 0.04) 100%);
     border-radius: var(--radius);
+    box-shadow:
+      0 4px 20px oklch(0 0 0 / 0.2),
+      0 1px 3px oklch(0 0 0 / 0.1),
+      inset 1px 1px 0 oklch(1 0 0 / 0.08),
+      inset -1px -1px 0 oklch(0 0 0 / 0.08);
+  }
+
+  [data-theme="light"] .profile-card,
+  
+  [data-theme="light"] .contact-inner,
+  [data-theme="light"] .project-card,
+  [data-theme="light"] .agent-card,
+  [data-theme="light"] .stat-card,
+  [data-theme="light"] .cert-card {
+    border: 1px solid oklch(0.95 0 0 / 0.5);
+    background:
+      linear-gradient(105deg, oklch(0.99 0 0 / 0.55) 0%, oklch(0.97 0 0 / 0.35) 40%, oklch(1 0 0 / 0.5) 100%);
+    box-shadow:
+      0 8px 32px oklch(0 0 0 / 0.08),
+      0 2px 8px oklch(0 0 0 / 0.04),
+      inset 1px 1px 0 oklch(1 0 0 / 0.7),
+      inset -1px -1px 0 oklch(0 0 0 / 0.04);
   }
 
   .profile-card {
@@ -869,7 +934,7 @@
 
   .profile-card:hover {
     transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 14px 40px -12px rgba(77,163,255,0.14);
+    box-shadow: 0 14px 40px -12px rgba(29,78,216,0.2);
   }
 
   .profile-card::before {
@@ -929,10 +994,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 0.6rem 0;
+    padding: 0.7rem 0;
     border-bottom: 1px solid var(--border);
     color: var(--text-2);
-    font-size: 13px;
+    font-size: 15px;
   }
 
   .info-row:last-child { border-bottom: 0; }
@@ -991,16 +1056,25 @@
     }
   }
 
-  .system-diagram {
-    margin-top: 3rem;
-    padding: 2rem;
-    overflow: hidden;
-  }
-
-  .system-flow {
+.system-flow {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 2rem;
+  }
+
+  .system-flow .node-card {
+    animation: float 5s ease-in-out infinite;
+  }
+  .system-flow .node-card:nth-child(1) { animation-delay: 0s; }
+  .system-flow .node-card:nth-child(2) { animation-delay: 0.6s; }
+  .system-flow .node-card:nth-child(3) { animation-delay: 1.2s; }
+  .system-flow .node-card:nth-child(4) { animation-delay: 0.3s; }
+  .system-flow .node-card:nth-child(5) { animation-delay: 0.9s; }
+  .system-flow .node-card:nth-child(6) { animation-delay: 1.5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
   }
 
   .system-row {
@@ -1027,18 +1101,34 @@
   .node-card {
     min-height: 92px;
     padding: 1rem;
-    border: 1px solid var(--border);
+    border: 1px solid oklch(1 0 0 / 0.1);
     border-radius: var(--radius-sm);
-    background: var(--bg-2);
+    background:
+      linear-gradient(105deg, oklch(1 0 0 / 0.04) 0%, oklch(1 0 0 / 0.01) 40%, oklch(1 0 0 / 0.03) 100%);
+    box-shadow:
+      0 2px 8px oklch(0 0 0 / 0.15),
+      0 0 0 1px oklch(1 0 0 / 0.03) inset;
     transition: border-color 0.35s cubic-bezier(0.2, 0, 0, 1),
                 transform 0.35s cubic-bezier(0.2, 0, 0, 1),
                 box-shadow 0.35s cubic-bezier(0.2, 0, 0, 1);
   }
 
+  [data-theme="light"] .node-card {
+    border-color: oklch(0.95 0 0 / 0.5);
+    background:
+      linear-gradient(105deg, oklch(0.99 0 0 / 0.5) 0%, oklch(0.97 0 0 / 0.35) 40%, oklch(1 0 0 / 0.45) 100%);
+    box-shadow:
+      0 4px 16px oklch(0 0 0 / 0.06),
+      0 1px 3px oklch(0 0 0 / 0.03),
+      inset 1px 1px 0 oklch(1 0 0 / 0.6);
+  }
+
   .node-card:hover {
-    border-color: rgba(77,163,255,0.5);
-    transform: translateY(-7px) scale(1.04);
-    box-shadow: 0 16px 48px -14px rgba(77,163,255,0.16);
+    border-color: rgba(29,78,216,0.5);
+    transform: translateY(-4px);
+    box-shadow:
+      0 14px 44px -12px rgba(29,78,216,0.25),
+      0 4px 12px -4px rgba(0,0,0,0.3);
     z-index: 2;
   }
 
@@ -1068,10 +1158,13 @@
     font-family: var(--mono);
     font-size: 28px;
     font-weight: 700;
-    color: var(--accent);
+    color: #1d4ed8;
     line-height: 1;
     margin-bottom: 0.5rem;
-    opacity: 0.7;
+  }
+
+  [data-theme="light"] .node-card .step-num {
+    color: #1d4ed8;
   }
 
   .node-title {
@@ -1110,15 +1203,22 @@
   .stat-card {
     padding: 1.25rem;
     background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow:
+      0 1px 3px rgba(0,0,0,0.06),
+      0 0 0 1px rgba(255,255,255,0.015) inset;
     transition: border-color 0.35s cubic-bezier(0.2, 0, 0, 1),
                 transform 0.35s cubic-bezier(0.2, 0, 0, 1),
                 box-shadow 0.35s cubic-bezier(0.2, 0, 0, 1);
   }
 
   .stat-card:hover {
-    border-color: rgba(77,163,255,0.45);
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 12px 36px -10px rgba(77,163,255,0.14);
+    border-color: rgba(29,78,216,0.5);
+    transform: translateY(-4px);
+    box-shadow:
+      0 12px 40px -10px rgba(29,78,216,0.22),
+      0 4px 12px -4px rgba(0,0,0,0.3);
     z-index: 2;
   }
 
@@ -1135,6 +1235,133 @@
     margin-top: 0.35rem;
     color: var(--text-2);
     font-size: 13px;
+  }
+
+  /* Gallery Scroll */
+  .gallery-wrap {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg);
+    mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+  }
+
+  /* animated brand-color waves — bottom fade to blend into next section */
+  .gallery-tex {
+    position: absolute;
+    inset: -10%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.45;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 50%, #4da3ff 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 75% 40%, #00d4aa 0%, transparent 70%),
+      radial-gradient(ellipse 45% 55% at 50% 70%, #2563eb 0%, transparent 70%);
+    animation: wave-drift 12s ease-in-out infinite;
+    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  }
+
+  [data-theme="light"] .gallery-tex {
+    opacity: 0.3;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 50%, #93c5fd 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 75% 40%, #99f6e4 0%, transparent 70%),
+      radial-gradient(ellipse 45% 55% at 50% 70%, #bfdbfe 0%, transparent 70%);
+  }
+
+  @keyframes wave-drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    25%  { transform: translate(3%, -2%) scale(1.08); }
+    50%  { transform: translate(-2%, 3%) scale(0.95); }
+    75%  { transform: translate(-3%, -1%) scale(1.05); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+
+  .gallery-track {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    width: max-content;
+    animation: museum-scroll 35s linear infinite;
+    padding: 2rem 4vw;
+  }
+
+  .gallery-wrap:hover .gallery-track { animation-play-state: paused; }
+
+  @keyframes museum-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .gallery-card {
+    flex-shrink: 0;
+    height: 68vh;
+    max-height: 600px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    background: oklch(1 0 0 / 0.03);
+    border: 1px solid oklch(1 0 0 / 0.08);
+    box-shadow: 0 8px 40px oklch(0 0 0 / 0.4);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  .gallery-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 16px 56px oklch(0 0 0 / 0.6), 0 0 0 1px rgba(29,78,216,0.4);
+  }
+
+  .gallery-card--square { aspect-ratio: 1/1; }
+  .gallery-card--16x9 { aspect-ratio: 16/9; }
+
+  .gallery-stack {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 68vh;
+    max-height: 600px;
+    aspect-ratio: 21/20;
+  }
+
+  .gallery-stack .gallery-card {
+    flex: 9;
+    height: auto;
+    max-height: none;
+    width: 100%;
+  }
+
+  .gallery-stack .gallery-card iframe {
+    transform: scale(1.35);
+  }
+
+  .gallery-card iframe, .gallery-card img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .gallery-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 1rem 0.75rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   .projects-grid,
@@ -1155,25 +1382,32 @@
     padding: 1.75rem;
     color: var(--text);
     text-decoration: none;
-    transition: border-color 0.35s cubic-bezier(0.2, 0, 0, 1), 
-                background 0.35s cubic-bezier(0.2, 0, 0, 1), 
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow:
+      0 1px 3px rgba(0,0,0,0.08),
+      0 0 0 1px rgba(255,255,255,0.02) inset;
+    transition: border-color 0.35s cubic-bezier(0.2, 0, 0, 1),
+                background 0.35s cubic-bezier(0.2, 0, 0, 1),
                 transform 0.35s cubic-bezier(0.2, 0, 0, 1),
                 box-shadow 0.35s cubic-bezier(0.2, 0, 0, 1);
   }
 
   .project-card:hover,
   .agent-card:hover {
-    border-color: rgba(77,163,255,0.6);
+    border-color: rgba(29,78,216,0.55);
     background: var(--surface-2);
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 20px 60px -16px rgba(77,163,255,0.22),
-                0 8px 24px -8px rgba(0,0,0,0.4);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow:
+      0 16px 48px -12px rgba(29,78,216,0.28),
+      0 4px 16px -4px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(255,255,255,0.03) inset;
     z-index: 2;
   }
 
-  .timeline-item:hover,
   .cert-card:hover {
-    border-color: rgba(77,163,255,0.42);
+    border-color: rgba(29,78,216,0.42);
     background: var(--surface-2);
     transform: translateY(-4px);
   }
@@ -1319,7 +1553,7 @@
     padding: 0 0 2rem 2.5rem;
     border: 0;
     background: transparent;
-    transition: transform 0.3s;
+    box-shadow: none;
   }
 
   .timeline-item::before {
@@ -1366,21 +1600,37 @@
 
   .contact-inner {
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     max-width: 640px;
     margin: 3rem auto 0;
-    padding: 2rem 0;
-    border: 0;
-    background: transparent;
-    border-radius: 0;
+    padding: 3rem 2.5rem;
     text-align: center;
+    border-radius: 16px;
+    box-shadow:
+      0 4px 24px rgba(0,0,0,0.4),
+      0 0 0 1px var(--border),
+      0 0 80px -20px rgba(77,163,255,0.18);
   }
 
-  .contact-inner::before {
-    display: none;
+  .contact-inner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    pointer-events: none;
   }
 
-  .contact-inner > * { position: relative; z-index: 1; }
+  [data-theme="light"] .contact-inner {
+    box-shadow:
+      0 4px 20px rgba(0,0,0,0.08),
+      0 0 0 1px var(--border),
+      0 0 60px -15px rgba(77,163,255,0.15);
+  }
+
+  [data-theme="light"] .contact-inner::after {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+  }
 
   .cert-list {
     display: flex;
@@ -1392,14 +1642,20 @@
   .contact-title {
     font-family: var(--serif);
     font-size: clamp(42px, 6vw, 86px);
-    line-height: 2.1;
+    line-height: 1.2;
     max-width: 680px;
     margin: 0 auto;
   }
 
   .contact-title em {
-    color: var(--accent);
+    background: linear-gradient(135deg, #4da3ff, #00d4aa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
     font-style: italic;
+    display: inline-block;
+    white-space: nowrap;
   }
 
   .contact-sub {
@@ -1421,15 +1677,22 @@
   }
 
   .contact-tag {
-    border: 1px solid var(--border);
+    border: 1px solid oklch(1 0 0 / 0.12);
     border-radius: 999px;
-    padding: 0.45rem 0.75rem;
-    background: var(--surface);
+    padding: 0.5rem 0.9rem;
+    background: oklch(1 0 0 / 0.04);
     color: var(--text-2);
     font-family: var(--mono);
     font-size: 11px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+    box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.06);
+  }
+
+  [data-theme="light"] .contact-tag {
+    border-color: oklch(0.9 0 0 / 0.5);
+    background: oklch(1 0 0 / 0.5);
+    box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.8);
   }
 
   .contact-links {
@@ -1448,21 +1711,29 @@
     align-items: center;
     gap: 8px;
     min-height: 40px;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--border);
+    padding: 0.6rem 1.1rem;
+    border: 1px solid oklch(1 0 0 / 0.12);
     border-radius: var(--radius-sm);
-    background: var(--surface);
+    background: oklch(1 0 0 / 0.04);
     color: var(--text);
     text-decoration: none;
     font-size: 13px;
     white-space: nowrap;
-    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.06);
+    transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+
+  [data-theme="light"] .contact-link {
+    border-color: oklch(0.9 0 0 / 0.5);
+    background: oklch(1 0 0 / 0.55);
+    box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.8);
   }
 
   .contact-link:hover {
-    border-color: rgba(77,163,255,0.44);
-    background: var(--accent-dim);
-    color: var(--accent);
+    border-color: rgba(29,78,216,0.5);
+    background: rgba(29,78,216,0.08);
+    color: #1d4ed8;
+    transform: translateY(-2px);
   }
 
   .contact-icon {
@@ -1620,8 +1891,12 @@
 
     .demo-meta div:last-child { border-bottom: 0; }
 
-    .system-diagram { padding: 1rem; }
+    
     .pipeline .node-card::after { display: none; }
+
+    .gallery-card { height: 34vh; border-radius: 12px; }
+    .gallery-stack { height: 34vh; }
+    .gallery-track { gap: 1rem; padding: 1rem 4vw; }
 
     section { padding: 4rem 1rem; }
     .contact-inner {
@@ -1776,10 +2051,10 @@
       <div class="hero-copy">
         <p class="hero-name" data-i18n="hero.name">Daniel Li / 李绵泰</p>
         <h1 class="hero-title">
-          <span data-i18n="hero.line1">不只做内容，</span><br>
-          <span data-i18n="hero.line2Accent" class="accent-gradient">我做系统</span><span data-i18n="hero.line2Suffix">。</span>
+          <span data-i18n="hero.line1">AI 驱动，</span><br>
+          <span data-i18n="hero.line2Accent" class="accent-gradient">系统落地。</span>
         </h1>
-        <p class="hero-sub" data-i18n="hero.sub">一条管线。Brief 进，成片出。AI 驱动，记忆复用，拿来就用。</p>
+        <p class="hero-sub" data-i18n="hero.sub">一条工作流。Brief 进，成片出。AI 驱动，记忆复用，拿来就用。</p>
         <div class="hero-actions">
           <a href="#work" class="btn-primary" data-i18n="hero.primary">查看作品 →</a>
           <a href="#contact" class="btn-secondary" data-i18n="hero.secondary">联系我</a>
@@ -1810,37 +2085,56 @@
     <div class="marquee-track" id="marqueeTrack"></div>
   </div>
 
-  <!-- Featured Reel (moved from hero) -->
-  <section style="max-width:1100px;margin:0 auto;padding:3rem 2rem 0;">
-    <aside class="demo-card" aria-label="Looping portfolio reel" style="max-width:640px;margin:0 auto;">
-      <div class="demo-visual">
-        <div class="portfolio-fallback" aria-hidden="true"></div>
-        <iframe id="portfolioPlayer" class="portfolio-player" title="Daniel Li autoplay portfolio reel" allow="autoplay; encrypted-media; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <img id="portfolioThumb" class="portfolio-thumb" src="https://img.youtube.com/vi/EA9mTY6aH48/maxresdefault.jpg" alt="Mindray Animal Medical portfolio thumbnail">
-        <div class="reel-caption">
-          <div>
-            <div class="demo-kicker" id="portfolioKicker">作品循环 · 01 / 03</div>
-            <a class="demo-title" id="portfolioTitle" href="https://www.youtube.com/watch?v=EA9mTY6aH48" target="_blank" rel="noreferrer">Mindray Animal Medical</a>
-            <div class="demo-sub" id="portfolioSub">为全球兽医品牌制作商业视频。</div>
-          </div>
+  <div class="gallery-wrap" id="work">
+    <div class="gallery-tex"></div>
+    <div class="gallery-track">
+      <div class="gallery-stack">
+        <div class="gallery-card">
+          <iframe src="https://www.youtube.com/embed/fAbteXhl_Qg?autoplay=1&mute=1&loop=1&playlist=fAbteXhl_Qg&controls=0&playsinline=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+          <div class="gallery-label">Wide</div>
+        </div>
+        <div class="gallery-card">
+          <iframe src="https://www.youtube.com/embed/9ho8_1XibEE?autoplay=1&mute=1&loop=1&playlist=9ho8_1XibEE&controls=0&playsinline=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+          <div class="gallery-label">Wide</div>
         </div>
       </div>
-      <div class="reel-dots" id="portfolioDots" aria-label="Portfolio reel controls"></div>
-      <div class="demo-meta">
-        <div><div class="meta-label" data-i18n="portfolio.meta.role">角色</div><div class="meta-value" id="portfolioRole">制片 / 系统搭建</div></div>
-        <div><div class="meta-label" data-i18n="portfolio.meta.mode">模式</div><div class="meta-value" data-i18n="portfolio.meta.modeValue">AI + 传统制作</div></div>
-        <div><div class="meta-label" data-i18n="portfolio.meta.edge">不同点</div><div class="meta-value" data-i18n="portfolio.meta.edgeValue">Agent 驱动流程</div></div>
+      <div class="gallery-card gallery-card--square">
+        <iframe src="https://www.youtube.com/embed/hw6XoGmVcOM?autoplay=1&mute=1&loop=1&playlist=hw6XoGmVcOM&controls=0&playsinline=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        <div class="gallery-label">Square</div>
       </div>
-    </aside>
-  </section>
+      <div class="gallery-card gallery-card--16x9">
+        <iframe src="https://www.youtube.com/embed/_kHqyFngHXQ?autoplay=1&mute=1&loop=1&playlist=_kHqyFngHXQ&controls=0&playsinline=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        <div class="gallery-label">Campaign</div>
+      </div>
+      <div class="gallery-stack">
+        <div class="gallery-card">
+          <iframe src="https://www.youtube.com/embed/fAbteXhl_Qg?autoplay=1&mute=1&loop=1&playlist=fAbteXhl_Qg&controls=0&playsinline=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+          <div class="gallery-label">Wide</div>
+        </div>
+        <div class="gallery-card">
+          <iframe src="https://www.youtube.com/embed/9ho8_1XibEE?autoplay=1&mute=1&loop=1&playlist=9ho8_1XibEE&controls=0&playsinline=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+          <div class="gallery-label">Wide</div>
+        </div>
+      </div>
+      <div class="gallery-card gallery-card--square">
+        <iframe src="https://www.youtube.com/embed/hw6XoGmVcOM?autoplay=1&mute=1&loop=1&playlist=hw6XoGmVcOM&controls=0&playsinline=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        <div class="gallery-label">Square</div>
+      </div>
+      <div class="gallery-card gallery-card--16x9">
+        <iframe src="https://www.youtube.com/embed/_kHqyFngHXQ?autoplay=1&mute=1&loop=1&playlist=_kHqyFngHXQ&controls=0&playsinline=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        <div class="gallery-label">Campaign</div>
+      </div>
+    </div>
+  </div>
 
   <section id="about">
     <div class="section-label" data-i18n="about.label">01 — 简介</div>
     <h2 class="section-title"><span data-i18n="about.title1">不只做内容</span><br><em data-i18n="about.title2">是建系统</em></h2>
     <div class="about-grid">
       <div class="about-text">
-        <p data-i18n="about.p1">Daniel Li / 李绵泰，常驻伦敦。华威大学硕士，杜伦大学本科。六年深耕商业视频制作与 AI 内容系统——从拍摄到交付，从单次项目到可复用生产体系。</p>
-        <p data-i18n="about.p2">我的不同在于系统思维。给每个内容项目搭建记忆库、配置 Agent、设审核关卡、建交付标准——创意不再是一次性的，而是可以重复、可以规模化的生产线。适配需要「制作能力 + AI 基建」的团队。</p>
+        <p data-i18n="about.p1">常驻伦敦。为医疗、会展、消费品行业的国际品牌提供 AI 驱动的视频生产工作流——智能 brief 解析、Agent 协同制作、自动化多平台交付，全链路闭环。228 个素材 2.5 小时批处理零差错。</p>
+        <p data-i18n="about.p2">每个项目搭建记忆库、配置 Agent、设审核关卡。创意不再是一次性的，而是可重复、可规模化的体系。</p>
+        <p class="about-tagline"><span class="accent-gradient" data-i18n="about.tagline">不是外包，是生产基建。</span></p>
         <div class="timeline">
           <div class="timeline-item">
             <div class="timeline-date">2024–2025</div>
@@ -1861,12 +2155,12 @@
         </div>
         <h3 data-i18n="profile.name">Daniel Li / 李绵泰</h3>
         <div class="role-tag" data-i18n="profile.role">AI 内容系统搭建者</div>
-        <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row1">覆盖全链路：从摄影机到 Agent，从创意到交付</span></div>
+        <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row1">从摄影到营销，从创意落地到智能体运营</span></div>
         <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row2">商业广告、展会、品牌影片</span></div>
         <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row3">AI 基建：Memory OS、Agent 编排、Prompt 工程</span></div>
         <div class="info-row"><span class="info-icon">◎</span> <span data-i18n="profile.row4">语言：EN · 粤 · 普 + 4 门拉丁/日耳曼语系基础</span></div>
         <div class="profile-logos" aria-label="合作与教育机构">
-          <img class="logo-img logo-brand" src="assets/logos/mindray.png" alt="Mindray Animal Medical">
+          <img class="logo-img logo-brand" src="assets/logos/mindray.png" alt="Wide Film 1">
           <img class="logo-img logo-brand" src="assets/logos/durham-dark.svg" alt="Durham University">
           <img class="logo-img logo-brand" src="assets/logos/celestial-globe.png" alt="Celestial Globe">
         </div>
@@ -1877,8 +2171,7 @@
   <section id="system">
     <div class="section-label" data-i18n="system.label">02 — 系统</div>
     <h2 class="section-title"><span data-i18n="system.title1">AI 驱动</span><br><em data-i18n="system.title2">操作系统</em></h2>
-    <div class="system-diagram">
-      <div class="system-flow">
+    <div class="system-flow">
         <div class="node-card" data-step="01">
           <span class="step-num">01</span>
           <div class="node-title" data-i18n="system.step1.title">输入与目标</div>
@@ -1909,7 +2202,6 @@
           <div class="node-title" data-i18n="system.step6.title">复盘与回写</div>
           <div class="node-note" data-i18n="system.step6.desc">表现数据回写记忆库，优化下一轮策略。</div>
         </div>
-      </div>
     </div>
     <div class="system-stats">
       <div class="stat-card"><strong>60-70%</strong><span data-i18n="system.s1">更低 token 成本 — 分层记忆加载</span></div>
@@ -1918,49 +2210,16 @@
     </div>
   </section>
 
-  <section id="work">
-    <div class="section-label" data-i18n="work.label">03 — 作品</div>
-    <h2 class="section-title"><span data-i18n="work.title1">精选</span><br><em data-i18n="work.title2">案例</em></h2>
-    <div class="projects-grid">
-      <div class="project-card" data-flow="work-c1">
-        <div class="project-num">01 / 04</div>
-        <h3 data-i18n="work.c1.title">AI 内容生产 OS</h3>
-        <p data-i18n="work.c1.desc">分层记忆架构，跨 Notion AI、Claude、Codex 路由上下文。AI + SQL 批处理，228 个素材 2.5 小时零差错。</p>
-        <div class="tag-row"><span class="tag">Memory Architecture</span><span class="tag">Agent Config</span><span class="tag">Notion AI</span><span class="tag">SQL</span><span class="tag">Harness Engineering</span></div>
-      </div>
-      <a class="project-card" href="https://www.youtube.com/watch?v=EA9mTY6aH48" target="_blank" rel="noreferrer">
-        <div class="project-num">02 / 04</div>
-        <h3>Mindray Animal Medical</h3>
-        <p data-i18n="work.c2.desc">全球兽医品牌端到端商业影片。创意策划、摄影、AI 辅助后期、多版本交付——全流程。</p>
-        <div class="tag-row"><span class="tag">Commercial Video</span><span class="tag">Producer</span><span class="tag">DoP</span><span class="tag">AI Post</span><span class="tag">Brand Film</span></div>
-      </a>
-      <div class="project-card" data-flow="work-c3">
-        <div class="project-num">03 / 04</div>
-        <h3 data-i18n="work.c3.title">AI 视频生产流程</h3>
-        <p data-i18n="work.c3.desc">Brief → 脚本 → AI 生成 → 审核 → 剪辑 → 交付。每步有专属 Agent、护栏和人工复核。</p>
-        <div class="tag-row"><span class="tag">Runway</span><span class="tag">Kling</span><span class="tag">Veo</span><span class="tag">Agent Pipeline</span><span class="tag">Automation</span></div>
-      </div>
-      <div class="project-card" data-flow="work-c4">
-        <div class="project-num">04 / 04</div>
-        <h3 data-i18n="work.c4.title">DL Studio — 品牌内容引擎</h3>
-        <p data-i18n="work.c4.desc">一人即团队。从 IP 定位、制作计划到平台分发——把品牌内容生产变成可复用的引擎。</p>
-        <div class="tag-row"><span class="tag">Brand Content</span><span class="tag">200M+ Views</span><span class="tag">Multi-platform</span><span class="tag">Content Strategy</span></div>
-      </div>
-
-
-    </div>
-  </section>
-
   <section id="agents">
-    <div class="section-label" data-i18n="agents.label">04 — Agent Stack</div>
+    <div class="section-label" data-i18n="agents.label">04 — AI 智能体</div>
     <h2 class="section-title"><span data-i18n="agents.title1">AI 团队</span><br><em data-i18n="agents.title2">已部署</em></h2>
-    <div class="agents-grid">
-      <div class="agent-card"><div class="agent-icon"><span class="step-num">01</span></div><h3 data-i18n="agents.a1.title">记忆路由</h3><p data-i18n="agents.a1.desc">根据任务类型把上下文路由到正确知识库。分层加载可减少 60-70% token 成本。</p><span class="tag platform-tag">Notion AI</span></div>
-      <div class="agent-card"><div class="agent-icon"><span class="step-num">02</span></div><h3 data-i18n="agents.a2.title">Brief 解析</h3><p data-i18n="agents.a2.desc">把客户 brief 转成结构化脚本、镜头表和设备计划，适合快速进入制作。</p><span class="tag platform-tag">Claude / ChatGPT</span></div>
-      <div class="agent-card"><div class="agent-icon"><span class="step-num">03</span></div><h3 data-i18n="agents.a3.title">内容适配</h3><p data-i18n="agents.a3.desc">把长视频拆成适配小红书、LinkedIn、TikTok、YouTube、X 的短内容与文案。</p><span class="tag platform-tag">Claude + Notion</span></div>
-      <div class="agent-card"><div class="agent-icon"><span class="step-num">04</span></div><h3 data-i18n="agents.a4.title">视觉 QA</h3><p data-i18n="agents.a4.desc">检查 AI 生成素材的人物、产品和风格一致性，把异常标记给人工复核。</p><span class="tag platform-tag">AI Tools + Manual QA</span></div>
-      <div class="agent-card"><div class="agent-icon"><span class="step-num">05</span></div><h3 data-i18n="agents.a5.title">数据分析</h3><p data-i18n="agents.a5.desc">分析内容表现数据，并输出带指标依据的优化建议。</p><span class="tag platform-tag">Claude + SQL</span></div>
-      <div class="agent-card"><div class="agent-icon"><span class="step-num">06</span></div><h3 data-i18n="agents.a6.title">知识沉淀</h3><p data-i18n="agents.a6.desc">批量把原始内容转成结构化知识条目。曾在 2.5 小时内处理 228 个素材且零错误。</p><span class="tag platform-tag">Notion AI + SQL</span></div>
+    <div class="system-flow">
+      <div class="node-card"><span class="step-num">01</span><div class="node-title" data-i18n="agents.a1.title">记忆路由</div><div class="node-note" data-i18n="agents.a1.desc">根据任务类型把上下文路由到正确知识库。分层加载可减少 60-70% token 成本。</div></div>
+      <div class="node-card"><span class="step-num">02</span><div class="node-title" data-i18n="agents.a2.title">Brief 解析</div><div class="node-note" data-i18n="agents.a2.desc">把客户 brief 转成结构化脚本、镜头表和设备计划，适合快速进入制作。</div></div>
+      <div class="node-card"><span class="step-num">03</span><div class="node-title" data-i18n="agents.a3.title">内容适配</div><div class="node-note" data-i18n="agents.a3.desc">把长视频拆成适配小红书、LinkedIn、TikTok、YouTube、X 的短内容与文案。</div></div>
+      <div class="node-card"><span class="step-num">04</span><div class="node-title" data-i18n="agents.a4.title">视觉 QA</div><div class="node-note" data-i18n="agents.a4.desc">检查 AI 生成素材的人物、产品和风格一致性，把异常标记给人工复核。</div></div>
+      <div class="node-card"><span class="step-num">05</span><div class="node-title" data-i18n="agents.a5.title">数据分析</div><div class="node-note" data-i18n="agents.a5.desc">分析内容表现数据，并输出带指标依据的优化建议。</div></div>
+      <div class="node-card"><span class="step-num">06</span><div class="node-title" data-i18n="agents.a6.title">知识沉淀</div><div class="node-note" data-i18n="agents.a6.desc">批量把原始内容转成结构化知识条目。曾在 2.5 小时内处理 228 个素材且零错误。</div></div>
     </div>
   </section>
 
@@ -2015,7 +2274,7 @@ const flowCharts = {
   },
   'work-c3': {
     title: { zh: 'AI 视频生产流程', en: 'AI Video Production Workflow' },
-    sub: { zh: '从 Brief 到成片的 Agent 驱动管线', en: 'Agent-driven pipeline from brief to screen' },
+    sub: { zh: '从 Brief 到成片的 Agent 驱动工作流', en: 'Agent-driven pipeline from brief to screen' },
     nodes: [
       { zh: 'Brief 解析', en: 'Brief Parse', note: { zh: '客户需求 → 结构化脚本 + 镜头表', en: 'Client brief → structured script + shot list' } },
       { zh: '预演脚本', en: 'Previs & Script', note: { zh: '分镜、设备计划、资源配置', en: 'Storyboard, equipment plan, resources' } },
@@ -2050,15 +2309,13 @@ const translations = {
     'nav.cta': 'Work with me',
     'nav.ctaMobile': 'Contact',
     'hero.name': 'Daniel Li / 李绵泰',
-    'hero.line1': "Beyond content,",
-    'hero.line2Prefix': '',
-    'hero.line2Accent': 'I build the system',
-    'hero.line2Suffix': '.',
+    'hero.line1': 'AI drives it.',
+    'hero.line2Accent': 'Systems deliver.',
     'hero.sub': 'One pipeline. Brief to screen. AI-driven, memory-powered, team-ready.',
     'hero.primary': 'View work ->',
     'hero.secondary': 'Contact',
     'hero.stat1': 'Years in content production and project management',
-    'hero.stat2': 'Cross-platform total views',
+    'hero.stat2': 'Cross-platform views',
     'hero.stat3': 'One memory base. Every platform.',
     'hero.stat4': '228 assets. 2.5 hours. Zero errors.',
     'portfolio.meta.role': 'Role',
@@ -2069,13 +2326,14 @@ const translations = {
     'about.label': '01 — Bio',
     'about.title1': 'Beyond Content,',
     'about.title2': 'Building the System',
-    'about.p1': 'Daniel Li / 李绵泰. London-based. University of Warwick MA, Durham University BA. Six years bridging commercial video and AI content systems—from shoot to delivery, one-off projects to reusable production systems.',
-    'about.p2': 'What sets me apart is systems thinking. Every project gets a memory base, configured agents, review gates, and delivery standards—so creativity becomes repeatable and scalable. For teams that need production plus AI infrastructure.',
+    'about.p1': 'London-based. I build AI-driven video production workflows for global brands in healthcare, exhibitions, and consumer goods—intelligent brief parsing, agent-powered production, automated multi-platform delivery. 228 assets processed in 2.5 hours, zero errors.',
+    'about.p2': 'Every project gets its memory base, configured agents, review gates. Creativity becomes repeatable. Scalable.',
+    'about.tagline': 'Not outsourcing. Production infrastructure.',
         'profile.name': 'Daniel Li / 李绵泰',
     'profile.role': 'AI Content System Builder',
-    'profile.row1': 'Full chain: Camera → Agent → Delivery',
+    'profile.row1': 'Camera to campaign. Creative to agent ops.',
     'profile.row2': 'Commercials, exhibitions, brand films',
-    'profile.row3': 'AI infra: Memory OS, Agent orchestration, Prompt engineering',
+    'profile.row3': 'AI infrastructure: Memory OS, Agent orchestration, Prompt engineering',
     'profile.row4': 'Languages: EN · Cantonese · Mandarin + 4 Latin/Germanic basics',
     'system.label': '02 — System',
     'system.title1': 'AI-Powered',
@@ -2120,9 +2378,9 @@ const translations = {
     'system.d13': 'Core narrative and campaign anchor.',
     'system.n14': 'Data Review',
     'system.d14': 'Performance feedback written back into memory.',
-    'system.s1': 'Lower token cost through layered memory loading',
-    'system.s2': '228 assets processed with AI + SQL and zero errors',
-    'system.s3': 'One configuration across Notion AI / Codex / Claude',
+    'system.s1': 'Layered memory loading keeps token cost low',
+    'system.s2': '228 assets, AI + SQL, zero errors',
+    'system.s3': 'One config across Notion AI / Codex / Claude',
     'work.label': '03 — Work',
     'work.title1': 'Selected',
     'work.title2': 'case studies',
@@ -2132,7 +2390,7 @@ const translations = {
     'work.c3.title': 'AI Video Production Workflow',
     'work.c3.desc': 'Brief → Script → AI Gen → QA → Edit → Delivery. Each step with its own agent, guardrail, and human review.',
     'work.c4.title': 'DL Studio — Brand Content Engine',
-    'work.c4.desc': 'A one-person content engine. From IP positioning and production planning to platform distribution—brand content, systematised.',
+    'work.c4.desc': 'Solo content engine. From IP positioning and production planning to platform distribution—brand content, systematised.',
     'work.c5.title': 'WSAVA 2024 — On-site Production',
     'work.c5.desc': 'Production management for WSAVA World Congress. Multi-cam coordination, live direction, cross-border team collaboration — a benchmark among 50+ campaigns.',
     'agents.label': '04 — Agent Stack',
@@ -2153,10 +2411,10 @@ const translations = {
                 'credentials.edu1.title': 'MA Education Leadership & Management',
     'credentials.edu2.title': 'BA Business Management',
     'contact.label': '05 — Contact',
-    'contact.title1': "Let's Build",
-    'contact.title2': 'the System. Together.',
+    'contact.title1': 'Turn content',
+    'contact.title2': 'into system.',
     'contact.title3': '',
-    'contact.sub': 'Open to full-time roles, consulting, and system builds. Based in London, working globally.',
+    'contact.sub': 'Available for full-time roles, consulting, and AI system builds. Based in London, working globally.',
     'contact.tag1': 'Full-time roles',
     'contact.tag2': 'Consulting',
     'contact.tag3': 'AI content systems',
@@ -2290,6 +2548,10 @@ function initLightTrail() {
   let lastX = window.innerWidth * 0.72;
   let lastY = window.innerHeight * 0.24;
 
+  function isLight() {
+    return document.documentElement.dataset.theme === 'light';
+  }
+
   function resizeTrail() {
     const ratio = Math.min(window.devicePixelRatio || 1, 2);
     width = window.innerWidth;
@@ -2324,7 +2586,8 @@ function initLightTrail() {
 
   function drawTrail() {
     ctx.clearRect(0, 0, width, height);
-    ctx.globalCompositeOperation = 'lighter';
+    const light = isLight();
+    ctx.globalCompositeOperation = light ? 'source-over' : 'lighter';
 
     for (let i = points.length - 1; i >= 0; i -= 1) {
       const point = points[i];
@@ -2336,9 +2599,15 @@ function initLightTrail() {
 
       const radius = point.size * (0.82 + (1 - point.life) * 1.35);
       const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
-      gradient.addColorStop(0, `rgba(77, 163, 255, ${0.24 * point.life})`);
-      gradient.addColorStop(0.4, `rgba(0, 212, 170, ${0.16 * point.life + point.hueShift * 0.04})`);
-      gradient.addColorStop(1, 'rgba(0, 212, 170, 0)');
+      if (light) {
+        gradient.addColorStop(0, `rgba(29, 78, 216, ${0.30 * point.life})`);
+        gradient.addColorStop(0.4, `rgba(15, 118, 110, ${0.22 * point.life + point.hueShift * 0.04})`);
+        gradient.addColorStop(1, 'rgba(15, 118, 110, 0)');
+      } else {
+        gradient.addColorStop(0, `rgba(77, 163, 255, ${0.24 * point.life})`);
+        gradient.addColorStop(0.4, `rgba(0, 212, 170, ${0.16 * point.life + point.hueShift * 0.04})`);
+        gradient.addColorStop(1, 'rgba(0, 212, 170, 0)');
+      }
       ctx.fillStyle = gradient;
       ctx.beginPath();
       ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
@@ -2411,7 +2680,7 @@ const track = document.getElementById('marqueeTrack');
 const portfolioWorks = [
   {
     id: 'EA9mTY6aH48',
-    title: 'Mindray Animal Medical',
+    title: 'Wide Film 1',
     url: 'https://www.youtube.com/watch?v=EA9mTY6aH48',
     role: {
       zh: '制片 / 系统搭建',
@@ -2425,7 +2694,7 @@ const portfolioWorks = [
   {
     id: '_kHqyFngHXQ',
     bvid: 'BV13nxxe2EqN',
-    title: 'Mindray Animal Medical 2',
+    title: 'Wide Film 1 2',
     url: 'https://youtu.be/_kHqyFngHXQ?si=6LW8-qQRGK7QtXeS',
     role: {
       zh: '制片 / 系统搭建',
@@ -2438,8 +2707,8 @@ const portfolioWorks = [
   },
   {
     id: '1V7488MtTdQ',
-    title: 'Mindray Animal Medical 3',
-    url: 'https://youtu.be/1V7488MtTdQ?si=ppl6JS4hPin4wIwD',
+    title: 'Wide Film 1 3',
+    url: 'https://youtu.be/hw6XoGmVcOM?si=ppl6JS4hPin4wIwD',
     role: {
       zh: '制片 / 系统搭建',
       en: 'Producer / System Builder'
@@ -2561,10 +2830,10 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.project-card, .agent-card, .node-card, .stat-card, .timeline-item, .cert-card, .profile-card').forEach(element => {
+document.querySelectorAll('.project-card, .agent-card, .node-card, .stat-card, .timeline-item, .cert-card, .profile-card').forEach((element, i) => {
   element.style.opacity = '0';
-  element.style.transform = 'translateY(24px)';
-  element.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, background 0.3s';
+  element.style.transform = 'translateY(32px)';
+  element.style.transition = `opacity 0.55s ${i * 0.08}s ease, transform 0.55s ${i * 0.08}s ease, border-color 0.3s, background 0.3s`;
   observer.observe(element);
 });
 
